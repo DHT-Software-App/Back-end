@@ -25,7 +25,7 @@ class CreateEmployeesTable extends Migration
             $table->string('city', 45);
             $table->unsignedInteger('zip');
             $table->enum('status',['active','desactive'])->default('desactive');
-            $table->unsignedBigInteger('created_by')->nullable();
+           
             $table->timestamps();
 
            

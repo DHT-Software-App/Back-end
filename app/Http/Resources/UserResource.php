@@ -22,13 +22,16 @@ class UserResource extends JsonResource
                 "relationships" => [
                     "employee" => [
                         "links" => [
-                           "self" => "http://api.com/users/{$this->id}/relationships/employees",
-                           "related" => "http://api.com/users/{$this->id}/employees"  
+                           "self" => url("/api/v1/auth/me/relationships/employees"),
+                           "related" => url("/api/v1/auth/me/employees")  
                         ],
                         "data" => [
                             "type" => "employees",
                             "id" => (string) $this->employee->id,
                         ] 
+                    ],
+                    "employees-created" => [
+                        
                     ],
                     "profile" => [
                         "data" => [

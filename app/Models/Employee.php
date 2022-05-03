@@ -15,4 +15,8 @@ class Employee extends Model
     public function user() : HasOne{
         return $this->hasOne(User::class);
     }
+
+    public function creator() : HasOne {
+        return $this->hasOne(EmployeeCreator::class);
+    }
 }

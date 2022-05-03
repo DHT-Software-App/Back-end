@@ -15,12 +15,18 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $employee = Employee::factory()->create();
+        
+        $employee1 = Employee::withoutEvents(function () {
+            return Employee::factory()->create();
+        });
+
 
         User::create([
-            'email' => 'admin@dht.com',
+            'email' => 'manager@dht.com',
             'password' => bcrypt('123456'),
-            'employee_id' => $employee->id
+            'employee_id' => $employee1->id,
         ])->assignRole('manager');
+
+        
     }
 }

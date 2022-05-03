@@ -1,24 +1,12 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmployeeController;
 use App\Mail\EmployeeMailable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::group([
 
@@ -27,23 +15,35 @@ Route::group([
 
 ], function ($router) {
 
-    Route::post('login', 'App\Http\Controllers\AuthController@login');
-    Route::post('logout', 'App\Http\Controllers\AuthController@logout');
-    Route::post('refresh', 'App\Http\Controllers\AuthController@refresh');
-    Route::post('me', 'App\Http\Controllers\AuthController@me');
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('register', [AuthController::class, 'register']);
 
-    Route::post('register', 'App\Http\Controllers\AuthController@register');
-
-    Route::post('/new/account', function (Request $request) {
-        $admin = auth()->user()->employee;
+    // Route::post('/new/account', function (Request $request) {
+    //     $admin = auth()->user()->employee;
 
 
-        $email = new EmployeeMailable($admin);
+    //     $email = new EmployeeMailable($admin);
 
-        Mail::to('gian.carlos.perez.michel@gmail.com')->send($email);
+    //     Mail::to('gian.carlos.perez.michel@gmail.com')->send($email);
 
-        return response()->json([
-            'message' => 'Email send successfully'
-        ], 200);
-    });
+    //     return response()->json([
+    //         'message' => 'Email send successfully'
+    //     ], 200);
+    // });
+    
+  
+
+  
+});
+
+
+Route::group([
+    'middleware' => ['api', 'auth:api', 'can:view employees'],
+    'prefix' => 'employees'
+
+], function ($router) {
+
+    Route::post('', [EmployeeController::class, 'create']);
 });

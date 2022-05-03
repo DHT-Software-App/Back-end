@@ -22,15 +22,15 @@ class RoleSeeder extends Seeder
         $technician = Role::create(['name' => 'technician']);
 
         // Employee permissions
-        Permission::create(['name' => 'show:employees'])->syncRoles([$manager, $admin]);
+        Permission::create(['name' => 'view employees'])->syncRoles([$manager, $admin]);
 
-        Permission::create(['name' => 'create:admin'])->assignRole($manager);
-        Permission::create(['name' => 'edit:admin'])->assignRole($manager);
-        Permission::create(['name' => 'destroy:admin'])->assignRole($manager);
+        Permission::create(['name' => 'create admin'])->assignRole($manager);
+        Permission::create(['name' => 'edit admin'])->assignRole($manager);
+        Permission::create(['name' => 'destroy admin'])->assignRole($manager);
 
-        Permission::create(['name' => 'create:technician'])->assignRole($admin);
-        Permission::create(['name' => 'edit:technician'])->assignRole($admin);
-        Permission::create(['name' => 'destroy:technician'])->assignRole($admin);
+        Permission::create(['name' => 'create technician'])->assignRole($admin);
+        Permission::create(['name' => 'edit technician'])->assignRole($admin);
+        Permission::create(['name' => 'destroy technician'])->assignRole($admin);
 
     }
 }
