@@ -2,11 +2,26 @@
 
 namespace App\Observers;
 
+use App\Models\Creator;
 use App\Models\Employee;
 use App\Models\EmployeeCreator;
 
 class EmployeeObserver
 {
+     /**
+     * Handle the Employee "created" event.
+     *
+     * @param  \App\Models\Employee  $employee
+     * @return void
+     */
+    public function creating(Employee $employee)
+    {
+        $creator = Creator::create(['user_id' => auth()->user()->id]);
+
+        $employee->creator_id = $creator->id;
+    }
+
+
     /**
      * Handle the Employee "created" event.
      *
@@ -15,10 +30,7 @@ class EmployeeObserver
      */
     public function created(Employee $employee)
     {
-        EmployeeCreator::create([
-            'user_id' => auth()->user()->id,
-            'employee_id' => $employee->id
-        ]);
+   
     }
 
     /**

@@ -20,7 +20,7 @@ Route::group([
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('register', [AuthController::class, 'register']);
 
-    // Route::post('/new/account', function (Request $request) {
+    // Route::post('/enable/account', function (Request $request) {
     //     $admin = auth()->user()->employee;
 
 
@@ -45,5 +45,19 @@ Route::group([
 
 ], function ($router) {
 
-    Route::post('', [EmployeeController::class, 'create']);
+    Route::get('/', [EmployeeController::class, 'index']);
+    Route::post('/', [EmployeeController::class, 'store']);
+    Route::put('/{employee}', [EmployeeController::class, 'update']);
+    Route::delete('/{employee}', [EmployeeController::class, 'delete']);
+});
+
+Route::group([
+    'middleware' => ['api', 'auth:api', 'can:view employees'],
+    'prefix' => 'employees'
+], function ($router) {
+
+    Route::get('/', [EmployeeController::class, 'index']);
+    Route::post('/', [EmployeeController::class, 'store']);
+    Route::put('/{employee}', [EmployeeController::class, 'update']);
+    Route::delete('/{employee}', [EmployeeController::class, 'delete']);
 });

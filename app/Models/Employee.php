@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Employee extends Model
 {
@@ -16,7 +18,13 @@ class Employee extends Model
         return $this->hasOne(User::class);
     }
 
-    public function creator() : HasOne {
-        return $this->hasOne(EmployeeCreator::class);
+    public function userProfile() : HasOneThrough {
+        return $this->hasOneThrough(Profile::class, User::class);
     }
+
+    public function creator() : BelongsTo {
+        return $this->belongsTo(Creator::class);
+    }
+
+    
 }

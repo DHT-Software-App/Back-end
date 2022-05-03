@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -67,10 +68,13 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Employee::class);
     }
 
-    public function employees() {
-        return $this->hasMany(EmployeeCreator::class);
+    public function creator() {
+        return $this->hasOne(Creator::class);
     }
 
-    // accessors
+    public function creatorEmployees() : HasManyThrough {
+        return $this->hasManyThrough(Employee::class, Creator::class);
+    }
+
 
 }

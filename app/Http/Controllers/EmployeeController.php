@@ -2,49 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmployeeRequest;
+use App\Http\Resources\EmployeeCollection;
 use App\Http\Resources\EmployeeResource;
-use App\Http\Resources\InvalidAttributeCollection;
 use App\Models\Employee;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
 class EmployeeController extends Controller
 {
-    public function __contruct() {
-        $this->middleware('auth:api');
-    }
-
     public function index () {
-        return 'all';
+        $employees = Employee::all();
+        return response()->json(new EmployeeCollection($employees), Response::HTTP_CREATED);
     }
     
     public function show(Employee $employee) {
         return $employee;
     }
 
-    public function create(Request $request) {
-   
-        $validator = Validator::make($request->all(),[
-            'firstname' => 'required|max:50|alpha',
-            'lastname' => 'required|max:50|alpha',
-            'email_address' => 'required|max:100|email|unique:employees',
-            'contact_1' => 'required|max:50',
-            'contact_2' => 'required|max:50',
-            'state' => 'required|max:45',
-            'street' => 'required|max:45',
-            'city' => 'required|max:45',
-            'zip' => 'required|numeric',
-        ]);
-
-        if ($validator->fails()) {
-           $formatError = invalid_attribute_format($validator->errors());
-           
-            return response()->json(new InvalidAttributeCollection($formatError), Response::HTTP_BAD_REQUEST);
-        }
-
-        $employee = Employee::create($validator->validate());
+    public function store(EmployeeRequest $request) {
+        $employee = Employee::create($request->all());
         
         return response()->json(new EmployeeResource($employee), Response::HTTP_CREATED);
+    }
+
+    public function update(EmployeeRequest $request, $id) {
+     
+        $employee = Employee::updateOrCreate(["id" => $id], $request->all());
+        
+        return response()->json(new EmployeeResource($employee), Response::HTTP_OK);
+    }
+
+    public function delete($id) {
+    //    return auth()->user()->creatorEmployees->delete($id);
+       
     }
 }

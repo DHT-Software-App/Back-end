@@ -15,9 +15,8 @@ class EmployeeResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "data" => [
                 "type" => "employees",
-                "id" => $this->id,
+                "id" => (string) $this->id,
                 "attributes" => $this->only(
                     'firstname',
                     'lastname',
@@ -29,11 +28,33 @@ class EmployeeResource extends JsonResource
                     'city',
                     'zip',
                     'status',
-                    'created_by',
                     'created_at',
                     'updated_at'
-                )
-            ]
+                ),
+                "relationships" => [
+                    "user" => [
+                        "links" => [
+                            "related" => url("/api/v1/employees/{$this->id}/user")
+                        ],
+                        "data" => $this->when($this->user, function() {
+                            return [
+                                "type" => "users",
+                                "id" => (string) $this->user->id
+                            ];
+                        })
+                    ],
+                    "creator" => $this->when($this->creator, function() {
+                        return [
+                            "links" => [
+                                "related" => url("/api/v1/employees/{$this->id}/creator")
+                            ],
+                            "data" => [
+                                "type" => "creators",
+                                "id" => (string) $this->creator->id
+                            ]
+                        ];   
+                    })
+                ]
         ];
     }
 }
