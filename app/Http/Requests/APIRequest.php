@@ -31,7 +31,7 @@ abstract class APIRequest extends FormRequest
      *
      * @return void
      */
-    protected function prepareForValidation()
+    public function prepareForValidation()
     {
         if($this->_method) {
             $this->request->remove('_method');

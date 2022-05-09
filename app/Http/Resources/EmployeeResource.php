@@ -14,7 +14,7 @@ class EmployeeResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+    return  [
                 "type" => "employees",
                 "id" => (string) $this->id,
                 "attributes" => $this->only(
@@ -55,6 +55,7 @@ class EmployeeResource extends JsonResource
                         ];   
                     })
                 ]
-        ];
+            ];
+
     }
 }

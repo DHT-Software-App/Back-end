@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\InvalidAttributeResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -31,8 +32,20 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
+        $validatedEmail = User::firstWhere('email', $credentials['email']);
+
+        if(!$validatedEmail) {
+            return response()->json(new InvalidAttributeResource([
+                "attribute" => "email",
+                "error" => "Email does not exist"
+            ]), Response::HTTP_BAD_REQUEST);
+        }
+
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+            return response()->json(new InvalidAttributeResource([
+                "attribute" => "password",
+                "error" => "Password not match"
+            ]), Response::HTTP_BAD_REQUEST);
         }
 
         return $this->respondWithToken($token);
@@ -58,7 +71,7 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Successfully logged out'], Response::HTTP_OK);
     }
 
     /**
@@ -87,21 +100,23 @@ class AuthController extends Controller
         ]);
     }
 
-    public function register(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|min:8'
-        ]);
+    // public function register(Request $request) {
+    //     $validator = Validator::make($request->all(), [
+    //         'email' => 'required|string|email|max:100|unique:users',
+    //         'password' => 'required|string|min:8'
+    //     ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
-        }
+    //     if ($validator->fails()) {
+    //         return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
+    //     }
 
-        $user = User::create(array_merge($validator->validate(), ['password' => bcrypt($request->password)]));
+    //     $user = User::create(array_merge($validator->validate(), ['password' => bcrypt($request->password)]));
 
-        return response()->json([
-            'message' => 'User registered successfully.',
-            'user' => $user
-        ],Response::HTTP_CREATED);
-    }
+    //     return response()->json([
+    //         'message' => 'User registered successfully.',
+    //         'user' => $user
+    //     ],Response::HTTP_CREATED);
+    // }
+
+
 }

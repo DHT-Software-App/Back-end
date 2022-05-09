@@ -11,12 +11,22 @@ use Symfony\Component\HttpFoundation\Response;
 class EmployeeController extends Controller
 {
     public function index () {
-        $employees = Employee::all();
-        return response()->json(new EmployeeCollection($employees), Response::HTTP_CREATED);
+        // obtiene empleados creados por el usuario autenticado.
+        $employees = auth()->user()->creatorEmployees;
+
+        return response()->json(new EmployeeCollection($employees), Response::HTTP_OK);
     }
     
-    public function show(Employee $employee) {
-        return $employee;
+    public function show($id) {
+        $employee = auth()->user()->creatorEmployees->find($id);
+
+        if($employee == null) {
+            return response()->json([
+                'message' => 'Resource Not Found'
+            ] , Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json(new EmployeeResource($employee), Response::HTTP_OK);
     }
 
     public function store(EmployeeRequest $request) {
@@ -33,7 +43,7 @@ class EmployeeController extends Controller
     }
 
     public function delete($id) {
-    //    return auth()->user()->creatorEmployees->delete($id);
+        return auth()->user()->creatorEmployees->delete($id);
        
     }
 }

@@ -7,20 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EmployeeMailable extends Mailable
+class VerifyEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subject = 'Account creation';
+    public $pin;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($mailData)
+    public function __construct($pin)
     {
-        $this->mailData = $mailData;
+        $this->pin = $pin;
     }
 
     /**
@@ -30,8 +30,6 @@ class EmployeeMailable extends Mailable
      */
     public function build()
     {
-        return $this->view('account.creation')->with([
-            'admin' => $this->mailData
-        ]);
+        return $this->subject('Email Verification')->markdown('emails.verify');
     }
 }

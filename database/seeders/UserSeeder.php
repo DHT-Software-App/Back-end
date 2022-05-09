@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Employee;
+use Illuminate\Support\Carbon;
 
 class UserSeeder extends Seeder
 {
@@ -24,7 +25,8 @@ class UserSeeder extends Seeder
         User::create([
             'email' => 'manager@dht.com',
             'password' => bcrypt('123456'),
-            'employee_id' => $employee1->id,
+            'email_verified_at' => Carbon::now()->getTimestamp(),
+            'employee_id' => $employee1->id
         ])->assignRole('manager');
 
         
