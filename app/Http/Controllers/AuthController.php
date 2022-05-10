@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InvalidAttributeResource;
-use App\Http\Resources\UserResource;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -52,17 +48,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
-    {
-        $user = new UserResource(auth()->user());
-        return response()->json($user, Response::HTTP_OK);
-    }
-
-    /**
      * Log the user out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse
@@ -99,24 +84,5 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
-
-    // public function register(Request $request) {
-    //     $validator = Validator::make($request->all(), [
-    //         'email' => 'required|string|email|max:100|unique:users',
-    //         'password' => 'required|string|min:8'
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
-    //     }
-
-    //     $user = User::create(array_merge($validator->validate(), ['password' => bcrypt($request->password)]));
-
-    //     return response()->json([
-    //         'message' => 'User registered successfully.',
-    //         'user' => $user
-    //     ],Response::HTTP_CREATED);
-    // }
-
 
 }

@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +19,6 @@ class RegisterController extends Controller
 {
     public function register($employee_id) {
         $employee = Employee::find($employee_id);
-
 
         $user = User::create([
             'email' => $employee->email_address,
@@ -42,8 +42,15 @@ class RegisterController extends Controller
             ]);
         } 
 
+        $token = Crypt::encrypt([
+            'user_id' => $user->id,
+            'pin' => $pin,
+        ]);
+
+        $urlWithToken = env('FRONTEND_URL').'/new/password/'.$token;
+
         // Enviar correo de confirmacion
-        Mail::to($user->email)->send(new VerifyEmail($pin));
+        Mail::to($user->email)->send(new VerifyEmail($urlWithToken));
 
         return response()->json([
             'success' => true,
@@ -60,24 +67,24 @@ class RegisterController extends Controller
             return redirect()->back()->with(['message' => $validator->errors()]);
         }
 
+        $decrypt = Crypt::decrypt($request->token);
+
+        $user = User::find($decrypt->user_id);
+
         $select = DB::table('password_resets')
-            ->where('email', Auth::user()->email)
-            ->where('token', $request->token);
+            ->where('email', $user->email)
+            ->where('token', $decrypt->pin);
 
         if ($select->get()->isEmpty()) {
-            return response()->json(['success' => false, 'message' => "Invalid PIN"], 400);
+            return response()->json(['success' => false, 'message' => "Invalid PIN"], Response::HTTP_BAD_REQUEST);
         }
 
-        $select = DB::table('password_resets')
-            ->where('email', Auth::user()->email)
-            ->where('token', $request->token)
-            ->delete();
+        $select->delete();
 
-        $user = User::find(Auth::user()->id);
         $user->email_verified_at = Carbon::now()->getTimestamp();
         $user->save();
 
-        return response()->json(['success' => true, 'message' => "Email is verified"], 200);
+        return response()->json(['success' => true, 'message' => "Verified account"], Response::HTTP_OK);
 
     }
 

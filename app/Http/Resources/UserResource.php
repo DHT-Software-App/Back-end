@@ -15,40 +15,19 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
 
-        // dd((new PermissionCollection($this->getAllPermissions()))->collection);
 
         return [
             "data" => [
                 "type" => "users",
                 "id" => (string) $this->id,
                 "attributes" => $this->only('email','created_at','updated_at'),
+                "links" => [
+                    "self" => url("/api/v1/users/{$this->id}")
+                ],
                 "relationships" => [
-                    "employee" => [
-                        "links" => [
-                           "related" => url("/api/v1/auth/me/employee")  
-                        ],
-                        "data" => [
-                            "type" => "employees",
-                            "id" => (string) $this->employee->id,
-                        ] 
-                    ],
-                    "employees" => [
-                        "links" => [
-                            "related" => url("/api/v1/auth/me/employees")  
-                         ],
-                         "data" => $this->when(
-                            $this->creatorEmployees, 
-                            $this->creatorEmployees->map(function($employee) {
-                                return [
-                                    "type" => "employees",
-                                    "id" => (string) $employee->id
-                                ];
-                            })
-                         )
-                    ],
                     "profile" => [
                         "links" => [
-                            "related" => url("/api/v1/auth/me/profile"),
+                            "related" => url("/api/v1/users/{$this->id}/profile"),
                         ],
                         "data" => [
                             "type" => "profiles",
@@ -57,24 +36,28 @@ class UserResource extends JsonResource
                     ],
                     "role" => [
                         "links" => [
-                            "self" => url("/api/v1/auth/me/relationships/role"),
-                            "related" => url("/api/v1/auth/me/role"),
+                            "self" => url("/api/v1/users/{$this->id}/relationships/role"),
+                            "related" => url("/api/v1/users/{$this->id}/role"),
                         ],
-                        "data" => [
-                            "type" => "roles",
-                            "id" => (string) $this->roles->first()->id,
-                        ]
+                        "data" => $this->when($this->roles->first(), function() {
+                            return [
+                                "type" => "roles",
+                                "id" => (string) $this->roles->first()->id,
+                            ];
+                        }) 
                     ],
                     "permissions" => [
+                        "links" => [
+                            "related" => url("/api/v1/users/{$this->id}/permissions"),
+                        ],
                         "data" => $this->getAllPermissions()->map(function($permission) { 
                                     return [ "type" => "permissions", "id" => $permission->id ]; 
-                                })
+                        })
                     ]
 
                 ]
             ],
             "included" => array_merge(
-                [new EmployeeResource($this->employee)],
                 [new ProfileResource($this->profile)],
                 [new RoleResource($this->roles->first())],
                 (new PermissionCollection($this->getAllPermissions()))->collection->toArray()

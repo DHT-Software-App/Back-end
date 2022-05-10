@@ -16,9 +16,7 @@ class EmployeeObserver
      */
     public function creating(Employee $employee)
     {
-        $creator = Creator::create(['user_id' => auth()->user()->id]);
-
-        $employee->creator_id = $creator->id;
+        
     }
 
 

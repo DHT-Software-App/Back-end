@@ -43,17 +43,7 @@ class EmployeeResource extends JsonResource
                             ];
                         })
                     ],
-                    "creator" => $this->when($this->creator, function() {
-                        return [
-                            "links" => [
-                                "related" => url("/api/v1/employees/{$this->id}/creator")
-                            ],
-                            "data" => [
-                                "type" => "creators",
-                                "id" => (string) $this->creator->id
-                            ]
-                        ];   
-                    })
+                    
                 ]
             ];
 

@@ -10,15 +10,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EmployeeController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth:api', ['except' => []]);
+        $this->middleware('can:view employees', ['except' => []]); 
+    }
+    
     public function index () {
-        // obtiene empleados creados por el usuario autenticado.
-        $employees = auth()->user()->creatorEmployees;
+        $employees = Employee::all();
 
         return response()->json(new EmployeeCollection($employees), Response::HTTP_OK);
     }
     
     public function show($id) {
-        $employee = auth()->user()->creatorEmployees->find($id);
+        $employee = Employee::find($id);
 
         if($employee == null) {
             return response()->json([
@@ -43,7 +47,19 @@ class EmployeeController extends Controller
     }
 
     public function delete($id) {
-        return auth()->user()->creatorEmployees->delete($id);
+        $employee = Employee::find($id);
+
+        if($employee) {
+            $employee->delete();
+
+            return response()->json([
+                'messages' => 'Employee deleted successfully',
+            ], Response::HTTP_NO_CONTENT);
+        }
+
+        return response()->json([
+            'messages' => 'Resource Not Found',
+        ], Response::HTTP_BAD_REQUEST);
        
     }
 }

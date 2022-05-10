@@ -11,16 +11,16 @@ class VerifyEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $pin;
+    public $urlWithToken;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($pin)
+    public function __construct($urlWithToken)
     {
-        $this->pin = $pin;
+        $this->urlWithToken = $urlWithToken;
     }
 
     /**

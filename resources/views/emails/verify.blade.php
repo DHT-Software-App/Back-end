@@ -2,7 +2,8 @@
 # Email Verification
 
 Thank you for signing up. 
-Your six-digit code is {{$pin}}
+
+<a href="{{$urlWithToken}}"> Set Up Password </a>
 
 Thanks,<br>
 {{ config('app.name') }}
