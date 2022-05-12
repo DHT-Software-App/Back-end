@@ -12,10 +12,20 @@ class EmployeeController extends Controller
 {
     public function __construct() {
         $this->middleware('auth:api', ['except' => []]);
-        $this->middleware('can:view employees', ['except' => []]); 
+        $this->middleware('ability:view:employees');
     }
     
     public function index () {
+        $authenticated = auth()->user()->employee;
+        $str_roles = [];
+
+        foreach ($authenticated->getAbilities() as $ability) {
+            if($ability->title='employees' && str_contains($ability->name, 'create')) {
+                array_push($str_roles,explode(':',$ability->name,1)[0]);
+            }
+        }
+
+        // $employees = Employee::whereIs(...$str_roles)->get();
         $employees = Employee::all();
 
         return response()->json(new EmployeeCollection($employees), Response::HTTP_OK);
@@ -34,6 +44,10 @@ class EmployeeController extends Controller
     }
 
     public function store(EmployeeRequest $request) {
+        if(auth()->user()->employee->can()) {
+
+        }
+
         $employee = Employee::create($request->all());
         
         return response()->json(new EmployeeResource($employee), Response::HTTP_CREATED);

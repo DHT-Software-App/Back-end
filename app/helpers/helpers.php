@@ -11,3 +11,16 @@ if(! function_exists('invalid_attribute_format')) {
         }, array_keys($errors->getMessages()), $errors->getMessages()));
     }
 }
+
+
+if(! function_exists('split_by_comma')) {
+    /**
+     * Split by comma, removing innecessary spaces, commas, and empty values.
+     *
+     * @param  string $str
+     * @return array
+     */
+    function split_by_comma($str) {
+        return preg_split('/(\s*,*\s*)*,+(\s*,*\s*)*/', $str);
+    } 
+}

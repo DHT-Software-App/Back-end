@@ -5,6 +5,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -57,16 +58,38 @@ Route::group([
 
 ], function ($router) {
     Route::get('/', [EmployeeController::class, 'index']);
-    Route::get('/{employee}', [EmployeeController::class, 'show']);
+   
     Route::post('/', [EmployeeController::class, 'store']);
-    Route::put('/{employee}', [EmployeeController::class, 'update']);
-    Route::delete('/{employee}', [EmployeeController::class, 'delete']);
+  
+    Route::group(['prefix' => '{employee}'], function($router) {
+        Route::get('/', [EmployeeController::class, 'show']);
+        Route::put('/', [EmployeeController::class, 'update']);
+        Route::delete('/', [EmployeeController::class, 'delete']);
 
-    // test
-    Route::post(
-        '/{employeee}/user', 
-        [RegisterController::class, 'register']
-    );
+        // test
+        Route::post(
+            '/user', 
+            [RegisterController::class, 'register']
+        );
+
+        // role
+        Route::get('/role/{role}', [RoleController::class, 'show']);
+        
+        // role relationship
+        Route::group(['prefix' => 'relationships'], function ($router) {
+
+            Route::group(['prefix' => 'role'], function ($router) {
+                Route::post('/', [RoleController::class, 'store']);
+                Route::delete('/', [RoleController::class, 'delete']);
+            });
+          
+        });
+
+    });
+
+   
+
+  
 });
 
 
@@ -82,15 +105,7 @@ Route::group([
     Route::group([
        'prefix' => '{user}'
     ], function($router) {
-
         Route::get('',[UserController::class, 'show']);
-
-        Route::group([
-            'prefix' => 'permissions'
-        ], function($router) {
-            Route::get('',[PermissionController::class, 'index']);
-        });
-
     });
    
 });

@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Employee;
 use Illuminate\Support\Carbon;
+use Silber\Bouncer\BouncerFacade as Bouncer;
 
 class UserSeeder extends Seeder
 {
@@ -17,17 +18,18 @@ class UserSeeder extends Seeder
     public function run()
     {
         
-        $employee1 = Employee::withoutEvents(function () {
+        $employee = Employee::withoutEvents(function () {
             return Employee::factory()->create();
         });
 
+        $employee->assign('manager');
 
         User::create([
             'email' => 'manager@dht.com',
             'password' => bcrypt('123456'),
             'email_verified_at' => Carbon::now()->getTimestamp(),
-            'employee_id' => $employee1->id
-        ])->assignRole('manager');
+            'employee_id' => $employee->id
+        ]);
 
         
     }

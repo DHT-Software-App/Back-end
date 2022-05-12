@@ -15,16 +15,18 @@ class ProfileResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "type" => "profiles",
-            "id" => (string) $this->id,
-            "attributes" => array_merge(
-                $this->only(['nickname']), 
-                [
-                    'url' => $this->when($this->image, function(){
-                        return $this->image->url;
-                    }) 
-                ]
-            )
+            "data" => [
+                "type" => "profiles",
+                "id" => (string) $this->id,
+                "attributes" => array_merge(
+                    $this->only(['nickname']), 
+                    [
+                        'url' => $this->when($this->image, function(){
+                            return $this->image->url;
+                        }) 
+                    ]
+                )
+            ]
         ];
     }
 }

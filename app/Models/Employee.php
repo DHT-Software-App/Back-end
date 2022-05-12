@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Silber\Bouncer\Database\HasRolesAndAbilities;
+use Silber\Bouncer\Database\Concerns\Authorizable;
 
 class Employee extends Model
 {
     use HasFactory;
+    use HasRolesAndAbilities;
+    use Authorizable;
+    
 
     protected $guarded = [];
 

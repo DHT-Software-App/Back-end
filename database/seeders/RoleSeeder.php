@@ -3,9 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+use Silber\Bouncer\BouncerFacade as Bouncer;
 
 class RoleSeeder extends Seeder
 {
@@ -16,21 +14,72 @@ class RoleSeeder extends Seeder
      */ 
     public function run()
     {
-        // Current roles
-        $manager = Role::create(['name' => 'manager']);
-        $admin = Role::create(['name' => 'admin']);
-        $technician = Role::create(['name' => 'technician']);
+        // Roles
 
-        // Employee permissions
-        Permission::create(['name' => 'view employees'])->syncRoles([$manager, $admin]);
+        $manager = Bouncer::role()->create([
+            'name' => 'manager',
+            'title' => 'Manager',
+        ]);
 
-        Permission::create(['name' => 'create admin'])->assignRole($manager);
-        Permission::create(['name' => 'edit admin'])->assignRole($manager);
-        Permission::create(['name' => 'destroy admin'])->assignRole($manager);
+        $admin = Bouncer::role()->create([
+            'name' => 'admin',
+            'title' => 'Administrator',
+        ]);
 
-        Permission::create(['name' => 'create technician'])->assignRole($admin);
-        Permission::create(['name' => 'edit technician'])->assignRole($admin);
-        Permission::create(['name' => 'destroy technician'])->assignRole($admin);
+        $technician = Bouncer::role()->create([
+            'name' => 'technician',
+            'title' => 'Technician',
+        ]);
+
+        // Abilities
+
+        $viewEmployee = Bouncer::ability()->create([
+            'name' => 'view:employees',
+            'title' => 'employees'
+        ]);
+
+        // admin
+        $createAdmin = Bouncer::ability()->create([
+            'name' => 'create:admin',
+            'title' => 'employees'
+        ]);
+
+        $editAdmin = Bouncer::ability()->create([
+            'name' => 'edit:admin',
+            'title' => 'employees'
+        ]);
+
+        $deleteAdmin = Bouncer::ability()->create([
+            'name' => 'delete:admin',
+            'title' => 'employees'
+        ]);
+
+         // technician
+         $createTechnician = Bouncer::ability()->create([
+            'name' => 'create:technician',
+            'title' => 'employees'
+        ]);
+
+        $editTechnician = Bouncer::ability()->create([
+            'name' => 'edit:technician',
+            'title' => 'employees'
+        ]);
+
+        $deleteTechnician = Bouncer::ability()->create([
+            'name' => 'delete:technician',
+            'title' => 'employees'
+        ]);
+
+
+        Bouncer::allow($manager)->to($viewEmployee);
+        Bouncer::allow($manager)->to($createAdmin);
+        Bouncer::allow($manager)->to($editAdmin);
+        Bouncer::allow($manager)->to($deleteAdmin);
+
+        Bouncer::allow($admin)->to($viewEmployee);
+        Bouncer::allow($admin)->to($createTechnician);
+        Bouncer::allow($admin)->to($editTechnician);
+        Bouncer::allow($admin)->to($deleteTechnician);
 
     }
 }

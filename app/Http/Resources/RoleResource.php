@@ -17,7 +17,7 @@ class RoleResource extends JsonResource
         return [
             "type" => "roles",
             "id" => (string) $this->id,
-            "attributes" => $this->only('name','created_at','updated_at'),
+            "attributes" => $this->only('name','title','created_at','updated_at'),
         ];
     }
 }
