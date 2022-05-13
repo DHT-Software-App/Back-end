@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use App\Models\User;
 use App\Observers\EmployeeObserver;
 use App\Observers\UserObserver;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,8 +31,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
+
         // observers
-       User::observe(UserObserver::class);
-       Employee::observe(EmployeeObserver::class);
+        User::observe(UserObserver::class);
+        Employee::observe(EmployeeObserver::class);
     }
 }

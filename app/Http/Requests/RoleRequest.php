@@ -15,10 +15,11 @@ class RoleRequest extends APIRequest
     public function rules()
     {
         return [
-           
+            'name' => [
+                'required',
+                'exists:roles,name'
+            ]
         ];
     }
 
-
-   
 }

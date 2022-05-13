@@ -4,8 +4,11 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PermissionResource extends JsonResource
+class AbilityResource extends JsonResource
 {
+
+    public static $wrap = 'data';
+
     /**
      * Transform the resource into an array.
      *
@@ -15,9 +18,12 @@ class PermissionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "type" => "permissions",
-            "id" => $this->id,
-            "attributes" => $this->only('name','created_at','updated_at')
+            "data" => [
+                "type" => "abilities",
+                "id" => (string) $this->id,
+                "attributes" => $this->only('name','title','created_at','updated_at')
+            ]
+            
         ];
     }
 }

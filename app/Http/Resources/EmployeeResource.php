@@ -51,10 +51,21 @@ class EmployeeResource extends JsonResource
                                 "self" => url("/api/v1/employees/{$this->id}/relationships/role"),
                                 "related" => url("/api/v1/employees/{$this->id}/role")
                             ],
-                            "data" => $this->when($this->roles, function() {
+                            "data" => $this->when($this->roles->first(), function() {
                                 return [
                                     "type" => "roles",
                                     "id" => (string) $this->roles->first()->id
+                                ];
+                            })
+                        ],
+                        "abilities" => [
+                            "links" => [
+                                "related" => url("/api/v1/employees/{$this->id}/abilities") 
+                            ],
+                            "data" => $this->getAbilities()->pluck('id')->map(function($id) {
+                                return [
+                                    "type" => "abilities",
+                                    "id" => (string) $id
                                 ];
                             })
                         ]
@@ -64,12 +75,15 @@ class EmployeeResource extends JsonResource
                 "included" => array_merge(
                     [$this->mergeWhen($this->user && in_array('user', $includes), [
                         (new UserResource($this->user))
-                    ])]
+                    ])],
+                    [$this->mergeWhen($this->roles && in_array('role', $includes), [
+                        (new RoleResource($this->roles->first()))
+                    ])],
+                    [$this->mergeWhen(in_array('abilities', $includes), 
+                       AbilityResource::collection($this->getAbilities()),
+                    )]
                 )
             ];
-
-            // TODO
-            // (new AbilityCollection($this->getAbilities()))->collection->toArray()
 
     }
 }

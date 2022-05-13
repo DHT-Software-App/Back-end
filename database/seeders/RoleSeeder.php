@@ -39,13 +39,18 @@ class RoleSeeder extends Seeder
         ]);
 
         // admin
+        $viewAdmin = Bouncer::ability()->create([
+            'name' => 'view:admin',
+            'title' => 'employees'
+        ]);
+
         $createAdmin = Bouncer::ability()->create([
             'name' => 'create:admin',
             'title' => 'employees'
         ]);
 
-        $editAdmin = Bouncer::ability()->create([
-            'name' => 'edit:admin',
+        $updateAdmin = Bouncer::ability()->create([
+            'name' => 'update:admin',
             'title' => 'employees'
         ]);
 
@@ -55,13 +60,18 @@ class RoleSeeder extends Seeder
         ]);
 
          // technician
+         $viewTechnician = Bouncer::ability()->create([
+            'name' => 'view:technician',
+            'title' => 'employees'
+        ]);
+
          $createTechnician = Bouncer::ability()->create([
             'name' => 'create:technician',
             'title' => 'employees'
         ]);
 
-        $editTechnician = Bouncer::ability()->create([
-            'name' => 'edit:technician',
+        $updateTechnician = Bouncer::ability()->create([
+            'name' => 'update:technician',
             'title' => 'employees'
         ]);
 
@@ -71,14 +81,16 @@ class RoleSeeder extends Seeder
         ]);
 
 
+        Bouncer::allow($manager)->to($viewAdmin);
         Bouncer::allow($manager)->to($viewEmployee);
         Bouncer::allow($manager)->to($createAdmin);
-        Bouncer::allow($manager)->to($editAdmin);
+        Bouncer::allow($manager)->to($updateAdmin);
         Bouncer::allow($manager)->to($deleteAdmin);
 
+        Bouncer::allow($admin)->to($viewTechnician);
         Bouncer::allow($admin)->to($viewEmployee);
         Bouncer::allow($admin)->to($createTechnician);
-        Bouncer::allow($admin)->to($editTechnician);
+        Bouncer::allow($admin)->to($updateTechnician);
         Bouncer::allow($admin)->to($deleteTechnician);
 
     }

@@ -3,7 +3,6 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -80,7 +79,6 @@ Route::group([
 
             Route::group(['prefix' => 'role'], function ($router) {
                 Route::post('/', [RoleController::class, 'store']);
-                Route::delete('/', [RoleController::class, 'delete']);
             });
           
         });

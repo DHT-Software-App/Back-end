@@ -5,6 +5,10 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
+use Silber\Bouncer\Database\Role;
+use App\Policies\AbilityPolicy;
+use Silber\Bouncer\Database\Ability;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -12,8 +16,9 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array<class-string, class-string>
      */
+
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Ability::class => AbilityPolicy::class,
     ];
 
     /**
