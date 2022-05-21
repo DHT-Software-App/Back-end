@@ -22,7 +22,7 @@ class UserResource extends JsonResource
             "data" => [
                 "type" => "users",
                 "id" => (string) $this->id,
-                "attributes" => $this->only('email','created_at','updated_at'),
+                "attributes" => $this->only('email', 'email_verified_at', 'created_at','updated_at'),
                 "links" => [
                     "self" => url("/api/v1/users/{$this->id}")
                 ],
@@ -35,7 +35,7 @@ class UserResource extends JsonResource
                             "type" => "profiles",
                             "id" => (string) $this->profile->id,
                         ] 
-                    ],
+                    ]
                 ]
             ],
             "included" => array_merge(

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Silber\Bouncer\Database\Ability;
 
 class EmployeeRequest extends APIRequest
@@ -14,17 +15,26 @@ class EmployeeRequest extends APIRequest
      */
     public function rules()
     {
- 
+        $employee = '';
+
+        if($this->employee) {
+            $employee = $this->employee->id;
+        }
+        
         return [
             'firstname' => 'required|max:50|regex:/^[a-z ,.\'-]+$/i',
             'lastname' => 'required|max:50|regex:/^[a-z ,.\'-]+$/i',
-            'email_address' => 'required|max:100|email|unique:employees,email_address,'.$this->employee->id,
+            'email_address' => 'required|max:100|email|unique:employees,email_address,'.$employee,
             'contact_1' => 'required|max:50',
             'contact_2' => 'required|max:50',
             'state' => 'required|max:45',
             'street' => 'required|max:45',
             'city' => 'required|max:45',
             'zip' => 'required|numeric',
+            'status'=> [
+                'required',
+                Rule::in(['active','desactive'])
+            ]
         ];
     }
 
@@ -35,6 +45,8 @@ class EmployeeRequest extends APIRequest
 
             return auth()->user()->can('update', [Ability::class, $ownedRole]);
         }
+
+        return true;
 
     }
 

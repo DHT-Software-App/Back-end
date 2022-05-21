@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbilityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgotPasswordController;
@@ -43,7 +44,7 @@ Route::group([
 
     Route::post(
         '/verify/pin', 
-        [ForgotPasswordController::class, 'verifyPin']
+        [RegisterController::class, 'verifyPin']
     );
 
 });
@@ -61,15 +62,24 @@ Route::group([
     Route::post('/', [EmployeeController::class, 'store']);
   
     Route::group(['prefix' => '{employee}'], function($router) {
+
         Route::get('/', [EmployeeController::class, 'show']);
         Route::put('/', [EmployeeController::class, 'update']);
         Route::delete('/', [EmployeeController::class, 'delete']);
 
-        // test
-        Route::post(
-            '/user', 
-            [RegisterController::class, 'register']
-        );
+        Route::group(['prefix' => 'user'], function($router) {
+            
+            Route::post(
+                '/', 
+                [RegisterController::class, 'register']
+            );
+
+            Route::group(['prefix' => '{user}'], function($router) {
+                Route::get('/', [UserController::class, 'show']);
+            });
+
+        });
+       
 
         // role
         Route::get('/role/{role}', [RoleController::class, 'show']);
@@ -83,10 +93,15 @@ Route::group([
           
         });
 
+        // abilities
+        Route::group(['prefix' => 'abilities'], function () {
+            
+            Route::get('/', [AbilityController::class, 'index']);
+
+            Route::get('/{ability}', [AbilityController::class, 'show']);
+        });
+
     });
-
-   
-
   
 });
 

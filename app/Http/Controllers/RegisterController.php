@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\EmailExistsRequest;
 use App\Mail\VerifyEmail;
 use App\Models\Employee;
 use App\Models\User;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 class RegisterController extends Controller
 {
     public function register($employee_id) {
+        
         $employee = Employee::find($employee_id);
 
         $user = User::create([
@@ -42,44 +43,72 @@ class RegisterController extends Controller
             ]);
         } 
 
-        $token = Crypt::encrypt([
-            'user_id' => $user->id,
+        $urltoken = Crypt::encrypt([
+            'email' => $user->email,
             'pin' => $pin,
         ]);
 
-        $urlWithToken = env('FRONTEND_URL').'/new/password/'.$token;
-
         // Enviar correo de confirmacion
-        Mail::to($user->email)->send(new VerifyEmail($urlWithToken));
+        Mail::to($user->email)->send(new VerifyEmail(env('FRONTEND_URL').'/new/password/'.$urltoken));
 
         return response()->json([
             'success' => true,
             'message' => 'Successful created user. Please check your email for a 6-digit pin to verify your email.'
         ], Response::HTTP_CREATED);
+        
+    }
+
+    public function verifyPin(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'token' => ['required'],
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Token required',
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
+            $decrypt = Crypt::decrypt($request->token);
+
+            $select = DB::table('password_resets')
+            ->where('email', $decrypt->email)
+            ->where('token', $decrypt->token);
+
+            if($select->get()->isEmpty()) {
+                return response()->json(['success' => false, 'message' => 'Invalid PIN.'], Response::HTTP_BAD_REQUEST);
+            }
+
+            $difference = Carbon::now()->diffInDays($select->first()->created_at);
+            
+            $select->delete();
+
+            // when passed more than 4 days
+            if ($difference > 4) {
+                return response()->json(['success' => false, 'message' => "Token Expired"], Response::HTTP_NOT_FOUND);
+            }
+
+            return response()->json(
+                [
+                    'success' => true, 
+                    'message' => "You can now set/reset your password"
+                ], 
+                Response::HTTP_OK
+            );
+
+        } catch (DecryptException $th) {
+            return response()->json(['success' => false, 'message' => 'Invalid token.'], Response::HTTP_BAD_REQUEST);
+        }
+        
     }
 
     public function verifyEmail(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'token' => ['required'],
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->with(['message' => $validator->errors()]);
-        }
-
         $decrypt = Crypt::decrypt($request->token);
 
-        $user = User::find($decrypt->user_id);
-
-        $select = DB::table('password_resets')
-            ->where('email', $user->email)
-            ->where('token', $decrypt->pin);
-
-        if ($select->get()->isEmpty()) {
-            return response()->json(['success' => false, 'message' => "Invalid PIN"], Response::HTTP_BAD_REQUEST);
-        }
-
-        $select->delete();
+        $user = User::find($decrypt->email);
 
         $user->email_verified_at = Carbon::now()->getTimestamp();
         $user->save();
@@ -88,18 +117,12 @@ class RegisterController extends Controller
 
     }
 
-    public function resendPin(Request $request)
+    public function resendPin(EmailExistsRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'string', 'email', 'max:255'],
-        ]);
-
-        if ($validator->fails()) {
-            return  response()->json(['success' => false, 'message' => $validator->errors()], 422);
-        }
-
-        $verify =  DB::table('password_resets')->where([
-            ['email', $request->all()['email']]
+        $email = $request->validated()['email'];
+           
+        $verify = DB::table('password_resets')->where([
+            ['email', $email]
         ]);
 
         if ($verify->exists()) {
@@ -121,7 +144,7 @@ class RegisterController extends Controller
                     'success' => true, 
                     'message' => "A verification mail has been resent"
                 ], 
-                200
+                Response::HTTP_OK
             );
         }
     }

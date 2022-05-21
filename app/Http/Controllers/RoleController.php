@@ -18,11 +18,14 @@ class RoleController extends Controller
     // route: /api/v1/employees/{employee}/role
     public function show(Employee $employee, $role) {
         // find assigned role by role id
-        $role = $employee->roles->find($role);
+        $ownedRole = $employee->roles->find($role);
 
         // verify that role exists
-        if($role) {
-            return response()->json(new RoleResource($role), Response::HTTP_OK);
+        if($ownedRole) {
+            // calling policy
+            $this->authorize('view',[Ability::class, $ownedRole->name]);
+
+            return response()->json(new RoleResource($ownedRole), Response::HTTP_OK);
         }
 
         $not_found_entity = 'Role';

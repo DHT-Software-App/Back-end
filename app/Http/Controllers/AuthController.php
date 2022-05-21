@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\InvalidAttributeResource;
+use App\Http\Resources\InvalidAttributeCollection;
 use App\Models\User;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,24 +28,45 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        $validatedEmail = User::firstWhere('email', $credentials['email']);
+        $validatedUser = User::firstWhere('email', $credentials['email']);
 
-        if(!$validatedEmail) {
-            return response()->json(new InvalidAttributeResource([
-                "attribute" => "email",
-                "error" => "Email does not exist"
+        // Email does not exist
+        if(!$validatedUser) {
+            return response()->json(new InvalidAttributeCollection([
+                [
+                    "attribute" => "email",
+                    "error" => "Email does not exist"
+                ]
             ]), Response::HTTP_BAD_REQUEST);
         }
 
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(new InvalidAttributeResource([
+        // Email does not verify yet
+        if(!$validatedUser->email_verified_at) {
+            return response()->json(new InvalidAttributeCollection([
+                [
+                    "attribute" => "email",
+                    "error" => "You need to verify your email before accessing"
+                ]
+            ]), Response::HTTP_BAD_REQUEST);
+        }
+
+
+        $token = auth()->claims([ 'employee_id' =>  $validatedUser->employee_id])
+        ->setTTL(7*24*60) // express in minutes
+        ->attempt($credentials);
+
+        if ($token) {
+            return $this->respondWithToken($token);
+        }
+
+        return response()->json(new InvalidAttributeCollection([
+            [
                 "attribute" => "password",
                 "error" => "Password not match"
-            ]), Response::HTTP_BAD_REQUEST);
-        }
-
-        return $this->respondWithToken($token);
+            ]
+        ]), Response::HTTP_BAD_REQUEST);
     }
+
 
     /**
      * Log the user out (Invalidate the token).

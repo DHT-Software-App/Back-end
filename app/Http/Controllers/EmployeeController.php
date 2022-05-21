@@ -42,10 +42,11 @@ class EmployeeController extends Controller
     }
 
     public function store(EmployeeRequest $request) {
-        $employee = Employee::create($request->all());
+        $employee = Employee::create($request->validated());
         
         return response()->json(new EmployeeResource($employee), Response::HTTP_CREATED);
     }
+    
 
     public function update(EmployeeRequest $request, Employee $employee) {
         // update employee after confirming action completed
