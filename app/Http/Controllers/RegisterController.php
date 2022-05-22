@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EmailExistsRequest;
+use App\Http\Requests\PasswordRequest;
 use App\Mail\VerifyEmail;
 use App\Models\Employee;
 use App\Models\User;
@@ -75,19 +76,18 @@ class RegisterController extends Controller
             $decrypt = Crypt::decrypt($request->token);
 
             $select = DB::table('password_resets')
-            ->where('email', $decrypt->email)
-            ->where('token', $decrypt->token);
+            ->where('email', $decrypt['email'])
+            ->where('token', $decrypt['pin']);
 
             if($select->get()->isEmpty()) {
-                return response()->json(['success' => false, 'message' => 'Invalid PIN.'], Response::HTTP_BAD_REQUEST);
+                return response()->json(['success' => false, 'message' => 'Invalid PIN.'], Response::HTTP_NOT_FOUND);
             }
 
             $difference = Carbon::now()->diffInDays($select->first()->created_at);
             
-            $select->delete();
-
             // when passed more than 4 days
             if ($difference > 4) {
+                $select->delete();
                 return response()->json(['success' => false, 'message' => "Token Expired"], Response::HTTP_NOT_FOUND);
             }
 
@@ -100,19 +100,28 @@ class RegisterController extends Controller
             );
 
         } catch (DecryptException $th) {
-            return response()->json(['success' => false, 'message' => 'Invalid token.'], Response::HTTP_BAD_REQUEST);
+            return response()->json(['success' => false, 'message' => 'Invalid token.'], Response::HTTP_NOT_FOUND);
         }
         
     }
 
-    public function verifyEmail(Request $request) {
-        $decrypt = Crypt::decrypt($request->token);
+    public function verifyEmail(PasswordRequest $request) {
+        $decrypt = Crypt::decrypt($request->validated()['token']);
 
-        $user = User::find($decrypt->email);
+        $user = User::where([
+            'email' => $decrypt['email']
+        ])->first();
 
         $user->email_verified_at = Carbon::now()->getTimestamp();
+        $user->password = bcrypt($request->validated()['password']);
         $user->save();
 
+        $select = DB::table('password_resets')
+        ->where('email', $decrypt['email'])
+        ->where('token', $decrypt['pin']);
+
+        $select->delete();
+        
         return response()->json(['success' => true, 'message' => "Verified account"], Response::HTTP_OK);
 
     }
@@ -129,15 +138,21 @@ class RegisterController extends Controller
             $verify->delete();
         }
 
-        $token = random_int(100000, 999999);
+        $pin = random_int(100000, 999999);
         $password_reset = DB::table('password_resets')->insert([
             'email' => $request->all()['email'],
-            'token' =>  $token,
+            'token' =>  $pin,
             'created_at' => Carbon::now()
         ]);
 
         if ($password_reset) {
-            Mail::to($request->all()['email'])->send(new VerifyEmail($token));
+            
+            $urltoken = Crypt::encrypt([
+                'email' => $email,
+                'pin' => $pin,
+            ]);
+
+            Mail::to($email)->send(new VerifyEmail(env('FRONTEND_URL').'/new/password/'.$urltoken));
 
             return response()->json(
                 [

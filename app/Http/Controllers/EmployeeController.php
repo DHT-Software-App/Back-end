@@ -50,7 +50,7 @@ class EmployeeController extends Controller
 
     public function update(EmployeeRequest $request, Employee $employee) {
         // update employee after confirming action completed
-        if($employee->update($request->all())) {
+        if($employee->update($request->validated())) {
             return response()->json(new EmployeeResource($employee), Response::HTTP_OK);
         }   
     }
@@ -65,7 +65,8 @@ class EmployeeController extends Controller
         $employee->delete();
 
         return response()->json([
-            'messages' => 'Employee deleted successfully',
+            'success' => true,
+            'message' => 'Employee deleted successfully',
         ], Response::HTTP_NO_CONTENT);
    
     }

@@ -50,6 +50,15 @@ class AuthController extends Controller
             ]), Response::HTTP_BAD_REQUEST);
         }
 
+        // Employee's user is not active.
+        // if($validatedUser->employee->status != 'active') {
+        //     return response()->json(new InvalidAttributeCollection([
+        //         [
+        //             "attribute" => "email",
+        //             "error" => "Your user is actually disabled"
+        //         ]
+        //     ]), Response::HTTP_BAD_REQUEST);
+        // }
 
         $token = auth()->claims([ 'employee_id' =>  $validatedUser->employee_id])
         ->setTTL(7*24*60) // express in minutes
