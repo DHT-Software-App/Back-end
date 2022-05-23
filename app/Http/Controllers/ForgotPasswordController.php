@@ -43,7 +43,8 @@ class ForgotPasswordController extends Controller
             return response()->json(
                 [
                     'success' => true, 
-                    'message' => "Please check your email for a 6 digit pin"
+                    'message' => "Please check your email for link to reset password",
+                    'code' => 'FORGOT_PASSWORD'
                 ], 
                 Response::HTTP_OK
             );

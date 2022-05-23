@@ -67,6 +67,7 @@ class EmployeeController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Employee deleted successfully',
+            'code' => 'DELETED'
         ], Response::HTTP_NO_CONTENT);
    
     }

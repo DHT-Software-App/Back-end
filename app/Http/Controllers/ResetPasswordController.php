@@ -14,11 +14,15 @@ class ResetPasswordController extends Controller
     {        
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:12', 'confirmed'],
         ]);
 
         if ($validator->fails()) {
-            return new JsonResponse(['success' => false, 'message' => $validator->errors()], 422);
+            return new JsonResponse([
+                'success' => false, 
+                'message' => $validator->errors(),
+                'code' => 'RESET_PASSWORD'
+            ], 422);
         }
 
         $user = User::where('email',$request->email);
@@ -26,13 +30,14 @@ class ResetPasswordController extends Controller
             'password'=>Hash::make($request->password)
         ]);
 
-        $token = $user->first()->createToken('myapptoken')->plainTextToken;
+        // $token = $user->first()->createToken('myapptoken')->plainTextToken;
 
         return new JsonResponse(
             [
                 'success' => true, 
                 'message' => "Your password has been reset", 
-                'token'=>$token
+                'code' => 'RESET_PASSWORD',
+                // 'token'=>$token
             ], 
             200
         );

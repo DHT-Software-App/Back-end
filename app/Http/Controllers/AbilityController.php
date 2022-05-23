@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\AbilityCollection;
 use App\Http\Resources\AbilityResource;
 use App\Models\Employee;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AbilityController extends Controller

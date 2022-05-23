@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmailExistsRequest;
 use App\Http\Requests\PasswordRequest;
+use App\Mail\ResetPassword;
 use App\Mail\VerifyEmail;
 use App\Models\Employee;
 use App\Models\User;
@@ -51,7 +52,7 @@ class RegisterController extends Controller
 
         return response()->json([
             'success' => true,
-            'code' => '0003', // REGISTER
+            'code' => 'CONFIRMATION_EMAIL', 
             'message' => 'Successful created user. Please check your email for link to verify your email.'
         ], Response::HTTP_CREATED);
         
@@ -68,6 +69,7 @@ class RegisterController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Token required',
+                    "code" => 'TOKEN_REQUIRED'
                 ], Response::HTTP_BAD_REQUEST);
             }
 
@@ -78,7 +80,12 @@ class RegisterController extends Controller
             ->where('token', $decrypt['pin']);
 
             if($select->get()->isEmpty()) {
-                return response()->json(['success' => false, 'message' => 'Invalid PIN.'], Response::HTTP_NOT_FOUND);
+                return response()->json([
+                    'success' => false, 
+                    'message' => 'Invalid PIN.',
+                    'code' => 'INVALID_PIN' // INVALID_PIN
+                ], 
+                Response::HTTP_NOT_FOUND);
             }
 
             $difference = Carbon::now()->diffInDays($select->first()->created_at);
@@ -86,19 +93,28 @@ class RegisterController extends Controller
             // when passed more than 4 days
             if ($difference > 4) {
                 $select->delete();
-                return response()->json(['success' => false, 'message' => "Token Expired"], Response::HTTP_NOT_FOUND);
+                return response()->json([
+                    'success' => false, 
+                    'message' => "Token Expired",
+                    'code' => 'TOKEN_EXPIRED' // TOKEN_EXPIRED
+                ], Response::HTTP_NOT_FOUND);
             }
 
             return response()->json(
                 [
                     'success' => true, 
-                    'message' => "You can now reset your password"
+                    'message' => "You can now reset your password",
+                    'code' => 'RESET_PASSWORD' // RESET_PASSWORD
                 ], 
                 Response::HTTP_OK
             );
 
         } catch (DecryptException $th) {
-            return response()->json(['success' => false, 'message' => 'Invalid token.'], Response::HTTP_NOT_FOUND);
+            return response()->json([
+                'success' => false, 
+                'message' => 'Invalid token.',
+                'code' => 'INVALID_TOKEN' // INVALID_TOKEN
+            ], Response::HTTP_NOT_FOUND);
         }
         
     }
@@ -120,7 +136,11 @@ class RegisterController extends Controller
 
         $select->delete();
         
-        return response()->json(['success' => true, 'message' => "Verified account"], Response::HTTP_OK);
+        return response()->json([
+            'success' => true, 
+            'message' => "Verified account",
+            'code' => 'VERIFIED_ACCOUNT' // VERIFIED_ACCOUNT
+        ], Response::HTTP_OK);
 
     }
 
@@ -145,17 +165,20 @@ class RegisterController extends Controller
 
         if ($password_reset) {
             
-            $urltoken = Crypt::encrypt([
+            $encrypt = Crypt::encrypt([
                 'email' => $email,
                 'pin' => $pin,
             ]);
+    
+            $urlWithToken = env('FRONTEND_URL').'/reset/password/'.$encrypt;
 
-            Mail::to($email)->send(new VerifyEmail(env('FRONTEND_URL').'/new/password/'.$urltoken));
+            Mail::to($email)->send(new ResetPassword($urlWithToken));
 
             return response()->json(
                 [
                     'success' => true, 
-                    'message' => "A verification mail has been resent"
+                    'message' => "A verification mail has been resent",
+                    'code' => "CONFIRMATION_EMAIL"
                 ], 
                 Response::HTTP_OK
             );
