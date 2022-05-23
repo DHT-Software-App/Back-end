@@ -18,43 +18,41 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RegisterController extends Controller
 {
-    public function register($employee_id) {
-        
-        $employee = Employee::find($employee_id);
-
+    public function register(Employee $employee) {
         $user = User::create([
             'email' => $employee->email_address,
             'employee_id' => $employee->id
         ]);
 
-        if($user) {
-            $verify = DB::table('password_resets')->where([
-                ['email', $user->email]
-            ]);
+        $verify = DB::table('password_resets')->where([
+            ['email', $user->email]
+        ]);
 
-            if($verify->exists()) {
-                $verify->delete();
-            }
+        if($verify->exists()) {
+            $verify->delete();
+        }
 
-            $pin = rand(100000, 999999);
+        $pin = rand(100000, 999999);
 
-            DB::table('password_resets')->insert([
-                'email' => $user->email,
-                'token' => $pin
-            ]);
-        } 
-
-        $urltoken = Crypt::encrypt([
+        DB::table('password_resets')->insert([
+            'email' => $user->email,
+            'token' => $pin
+        ]);
+  
+        $encrypt = Crypt::encrypt([
             'email' => $user->email,
             'pin' => $pin,
         ]);
 
-        // Enviar correo de confirmacion
-        Mail::to($user->email)->send(new VerifyEmail(env('FRONTEND_URL').'/new/password/'.$urltoken));
+        $urlWithToken = env('FRONTEND_URL').'/new/password/'.$encrypt;
+
+        // Send confirmation email
+        Mail::to($user->email)->send(new VerifyEmail($urlWithToken));
 
         return response()->json([
             'success' => true,
-            'message' => 'Successful created user. Please check your email for a 6-digit pin to verify your email.'
+            'code' => '0003', // REGISTER
+            'message' => 'Successful created user. Please check your email for link to verify your email.'
         ], Response::HTTP_CREATED);
         
     }
@@ -94,7 +92,7 @@ class RegisterController extends Controller
             return response()->json(
                 [
                     'success' => true, 
-                    'message' => "You can now set/reset your password"
+                    'message' => "You can now reset your password"
                 ], 
                 Response::HTTP_OK
             );

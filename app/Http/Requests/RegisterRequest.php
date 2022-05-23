@@ -20,14 +20,5 @@ class RegisterRequest extends APIRequest
 
     public function prepareForValidation() {
         parent::prepareForValidation();
-
-
-        // dd($this->employee);
-
-        // if($this->employee) {
-        //     response()->json([
-        //         'message' => 'Resource Not Found'
-        //     ], Response::HTTP_NOT_FOUND);
-        // }
     }
 }

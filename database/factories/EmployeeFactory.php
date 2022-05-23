@@ -28,6 +28,7 @@ class EmployeeFactory extends Factory
             'state' => $this->faker->country(),
             'street' => $this->faker->streetAddress(),
             'city' => $this->faker->city(),
+            'status' => 'active',
             'zip' => 42000
         ];
     }

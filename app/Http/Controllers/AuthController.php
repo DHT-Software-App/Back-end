@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+// use App\Enum\AuthEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Http\Resources\InvalidAttributeCollection;
 use App\Models\User;
 use Symfony\Component\HttpFoundation\Response;
+
 
 class AuthController extends Controller
 {
@@ -16,7 +19,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware(['auth:api'], ['except' => ['login', 'register']]);
     }
 
     /**
@@ -24,58 +27,36 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(LoginRequest $request)
     {
-        $credentials = request(['email', 'password']);
+        $user = User::firstWhere('email', $request['email']);
 
-        $validatedUser = User::firstWhere('email', $credentials['email']);
+        if($user->email_verified_at) {
+            $access_token = auth()->claims([ 'employee_id' =>  $user->employee_id])
+            ->setTTL(7*24*60) // To expire in one week (in minutes)
+            ->attempt($request->validated());
 
-        // Email does not exist
-        if(!$validatedUser) {
+            if ($access_token) {
+                return $this->respondWithToken($access_token);
+            }
+
             return response()->json(new InvalidAttributeCollection([
                 [
-                    "attribute" => "email",
-                    "error" => "Email does not exist"
+                    "attribute" => "password",
+                    "error" => "Password not match"
                 ]
             ]), Response::HTTP_BAD_REQUEST);
-        }
-
-        // Email does not verify yet
-        if(!$validatedUser->email_verified_at) {
-            return response()->json(new InvalidAttributeCollection([
-                [
-                    "attribute" => "email",
-                    "error" => "You need to verify your email before accessing"
-                ]
-            ]), Response::HTTP_BAD_REQUEST);
-        }
-
-        // Employee's user is not active.
-        // if($validatedUser->employee->status != 'active') {
-        //     return response()->json(new InvalidAttributeCollection([
-        //         [
-        //             "attribute" => "email",
-        //             "error" => "Your user is actually disabled"
-        //         ]
-        //     ]), Response::HTTP_BAD_REQUEST);
-        // }
-
-        $token = auth()->claims([ 'employee_id' =>  $validatedUser->employee_id])
-        ->setTTL(7*24*60) // express in minutes
-        ->attempt($credentials);
-
-        if ($token) {
-            return $this->respondWithToken($token);
         }
 
         return response()->json(new InvalidAttributeCollection([
             [
-                "attribute" => "password",
-                "error" => "Password not match"
+                "attribute" => "email",
+                "error" => "Email isn't verified."
             ]
         ]), Response::HTTP_BAD_REQUEST);
-    }
 
+        
+    }
 
     /**
      * Log the user out (Invalidate the token).
@@ -86,7 +67,11 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out'], Response::HTTP_OK);
+        return response()->json([
+            "success" => true,
+            'message' => 'Successfully logged out',
+            "code" => "0002" // LOGOUT
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -109,9 +94,12 @@ class AuthController extends Controller
     protected function respondWithToken($token)
     {
         return response()->json([
+            "success" => true,
+            "code" => "0001", // LOGGING
+            "message" => "Successfully logged in",
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60 // (in seconds)
         ]);
     }
 

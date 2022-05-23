@@ -23,7 +23,7 @@ class CreateEmployeesTable extends Migration
             $table->string('state', 45);
             $table->string('street', 45);
             $table->string('city', 45);
-            $table->unsignedInteger('zip');
+            $table->string('zip');
             $table->enum('status',['active','desactive'])->default('desactive');
            
             $table->timestamps();

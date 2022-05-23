@@ -22,7 +22,6 @@ abstract class APIRequest extends FormRequest
    
     protected function failedValidation(Validator $validator) {
         $formatError = invalid_attribute_format($validator->errors());
-        
         throw (new HttpResponseException(response()->json(new InvalidAttributeCollection($formatError), Response::HTTP_BAD_REQUEST)));
     }
 
