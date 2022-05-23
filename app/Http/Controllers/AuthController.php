@@ -70,7 +70,7 @@ class AuthController extends Controller
         return response()->json([
             "success" => true,
             'message' => 'Successfully logged out',
-            "code" => "0002" // LOGOUT
+            "code" => "LOGOUT" // LOGOUT
         ], Response::HTTP_OK);
     }
 
@@ -95,7 +95,7 @@ class AuthController extends Controller
     {
         return response()->json([
             "success" => true,
-            "code" => "0001", // LOGGING
+            "code" => "LOGGED", // LOGGED
             "message" => "Successfully logged in",
             'access_token' => $token,
             'token_type' => 'bearer',
