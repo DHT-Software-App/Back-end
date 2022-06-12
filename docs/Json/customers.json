@@ -1,0 +1,21 @@
+{
+    "userid":"1",
+    "first_name": "Kelvin",
+    "last_name": "Encarnación",
+    "email": "ismaealfr18@gmail.com",
+    "street" : "Calle Miramar Norte",
+    "id_city": 1,
+    "id_state" : 1,
+    "zip" : 1,
+    "contact": ["809-234-5935","829-763-1290","1"],
+    "insured":[
+        {
+            "first_name":"Ismael",
+            "last_name": "Frica"
+        },
+        {
+            "first_name":"Samuel",
+            "last_name": "Frica"
+        }
+    ]
+}

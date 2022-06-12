@@ -1,0 +1,873 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="MySql" id="Project-754" database="MySql" >
+	<schema name="dryhitec" >
+		<table name="dry_caledar" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="id_jobs" type="INT" jt="4" mandatory="y" />
+			<column name="id_technician" type="INT" jt="4" mandatory="y" />
+			<column name="date_start_job" type="DATE" jt="91" mandatory="y" />
+			<column name="date_finish_job" type="DATE" jt="91" mandatory="y" />
+			<column name="note" type="TEXT" jt="-1" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="calendar_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_caledar" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_dry_caledar_id_jobs" unique="UNIQUE_KEY" >
+				<column name="id_jobs" />
+			</index>
+			<index name="unq_dry_caledar_id_technician" unique="UNIQUE_KEY" >
+				<column name="id_technician" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_cities" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="id_state" type="INT" jt="4" mandatory="y" />
+			<column name="city" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="state_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_cities" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_dry_cities_id_state" unique="UNIQUE_KEY" >
+				<column name="id_state" />
+			</index>
+			<fk name="fk_dry_cities_dry_insurance_company" to_schema="dryhitec" to_table="dry_insurance_company" >
+				<fk_column name="id" pk="id_city" />
+			</fk>
+			<fk name="fk_dry_cities_dry_customers" to_schema="dryhitec" to_table="dry_customers" >
+				<fk_column name="id" pk="id_city" />
+			</fk>
+			<fk name="fk_dry_cities_dry_clients" to_schema="dryhitec" to_table="dry_clients" >
+				<fk_column name="id" pk="id_city" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_clients" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="person_contact" type="VARCHAR" length="70" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="company" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="street" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="id_city" type="INT" jt="4" mandatory="y" />
+			<column name="id_state" type="INT" jt="4" mandatory="y" />
+			<column name="zip" type="INT" jt="4" mandatory="y" />
+			<column name="clients_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_clients" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_dry_clients_id_city" unique="UNIQUE_KEY" >
+				<column name="id_city" />
+			</index>
+			<index name="unq_dry_clients_id_state" unique="UNIQUE_KEY" >
+				<column name="id_state" />
+			</index>
+			<fk name="fk_dry_clients_dry_clients_email" to_schema="dryhitec" to_table="dry_clients_email" >
+				<fk_column name="id" pk="id_clients" />
+			</fk>
+			<fk name="fk_dry_clients_dry_clients_contact" to_schema="dryhitec" to_table="dry_clients_contact" >
+				<fk_column name="id" pk="id_clients" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_clients_contact" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="id_clients" type="INT" jt="4" mandatory="y" />
+			<column name="contact" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="contact_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_clients_contact" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_dry_clients_contact_id_clients" unique="UNIQUE_KEY" >
+				<column name="id_clients" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_clients_email" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="id_clients" type="INT" jt="4" mandatory="y" />
+			<column name="email" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="email_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_clients_email" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_dry_clients_email_id_clients" unique="UNIQUE_KEY" >
+				<column name="id_clients" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_customer_contact" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="id_customers" type="INT" jt="4" mandatory="y" />
+			<column name="telephone" type="VARCHAR" length="30" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="customer_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_customer_contact" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_dry_customer_contact_id_customers" unique="UNIQUE_KEY" >
+				<column name="id_customers" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_customer_insured" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="id_customers" type="INT" jt="4" mandatory="y" />
+			<column name="first_name" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="last_name" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="insured_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_customer_insured" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_dry_customer_insured_id_customers" unique="UNIQUE_KEY" >
+				<column name="id_customers" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_customers" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="customer_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<column name="email" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="fisrt_name" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="id_city" type="INT" jt="4" mandatory="y" />
+			<column name="id_state" type="INT" jt="4" mandatory="y" />
+			<column name="last_name" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="street" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="zip" type="INT" jt="4" mandatory="y" />
+			<index name="pk_dry_customers" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_dry_customers_id_city" unique="UNIQUE_KEY" >
+				<column name="id_city" />
+			</index>
+			<index name="unq_dry_customers_id_state" unique="UNIQUE_KEY" >
+				<column name="id_state" />
+			</index>
+			<fk name="fk_dry_customers_dry_customer_contact" to_schema="dryhitec" to_table="dry_customer_contact" >
+				<fk_column name="id" pk="id_customers" />
+			</fk>
+			<fk name="fk_dry_customers_dry_customer_insured" to_schema="dryhitec" to_table="dry_customer_insured" >
+				<fk_column name="id" pk="id_customers" />
+			</fk>
+			<fk name="fk_dry_customers_dry_jobs" to_schema="dryhitec" to_table="dry_jobs" >
+				<fk_column name="id" pk="id_customers" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_employee" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="id_user" type="INT" jt="4" />
+			<column name="first_name" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="last_name" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="contact1" type="VARCHAR" length="20" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="contact2" type="VARCHAR" length="20" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="street" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="city" type="INT" jt="4" mandatory="y" />
+			<column name="state" type="INT" jt="4" mandatory="y" />
+			<column name="zip" type="INT" jt="4" mandatory="y" />
+			<column name="email" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="email_verified_at" type="TIMESTAMP" jt="93" />
+			<column name="password" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="origin" type="VARCHAR" length="20" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="remember_token" type="VARCHAR" length="100" jt="12" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="user_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_employee" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="dry_employee_email_unique" unique="UNIQUE_KEY" >
+				<column name="email" />
+			</index>
+			<index name="unq_dry_employee_id_user" unique="UNIQUE_KEY" >
+				<column name="id_user" />
+			</index>
+			<fk name="fk_dry_employee_dry_caledar" to_schema="dryhitec" to_table="dry_caledar" >
+				<fk_column name="id" pk="id_technician" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_insurance_company" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="company" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="street" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="id_city" type="INT" jt="4" mandatory="y" />
+			<column name="id_state" type="INT" jt="4" mandatory="y" />
+			<column name="zip" type="INT" jt="4" mandatory="y" />
+			<column name="clients_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_insurance_company" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_dry_insurance_company_id_city" unique="UNIQUE_KEY" >
+				<column name="id_city" />
+			</index>
+			<index name="unq_dry_insurance_company_id_state" unique="UNIQUE_KEY" >
+				<column name="id_state" />
+			</index>
+			<fk name="fk_dry_insurance_company_dry_insurance_company_email" to_schema="dryhitec" to_table="dry_insurance_company_email" >
+				<fk_column name="id" pk="id_insurance_company" />
+			</fk>
+			<fk name="fk_dry_insurance_company_dry_insurance_company_contact" to_schema="dryhitec" to_table="dry_insurance_company_contact" >
+				<fk_column name="id" pk="id_insurance_company" />
+			</fk>
+			<fk name="fk_dry_insurance_company_dry_jobs" to_schema="dryhitec" to_table="dry_jobs" >
+				<fk_column name="id" pk="id_insurance_company" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_insurance_company_contact" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="id_insurance_company" type="INT" jt="4" mandatory="y" />
+			<column name="contact" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="contact_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_insurance_company_contact" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_dry_insurance_company_contact_id_insurance_company" unique="UNIQUE_KEY" >
+				<column name="id_insurance_company" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_insurance_company_email" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="id_insurance_company" type="INT" jt="4" mandatory="y" />
+			<column name="email" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="email_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_insurance_company_email" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_dry_insurance_company_email_id_insurance_company" unique="UNIQUE_KEY" >
+				<column name="id_insurance_company" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_jobs" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="id_customers" type="INT" jt="4" mandatory="y" />
+			<column name="id_insurance_company" type="INT" jt="4" mandatory="y" />
+			<column name="policy_number" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="claim_number" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="date_loss" type="DATE" jt="91" mandatory="y" />
+			<column name="id_type_loss" type="INT" jt="4" mandatory="y" />
+			<column name="text" type="TEXT" jt="-1" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="id_referred_by" type="INT" jt="4" mandatory="y" />
+			<column name="id_job_status" type="INT" jt="4" mandatory="y" />
+			<column name="id_type_work" type="INT" jt="4" mandatory="y" />
+			<column name="job_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_jobs" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_dry_jobs_id_insurance_company" unique="UNIQUE_KEY" >
+				<column name="id_insurance_company" />
+			</index>
+			<index name="unq_dry_jobs_id_customers" unique="UNIQUE_KEY" >
+				<column name="id_customers" />
+			</index>
+			<fk name="fk_dry_jobs_dry_caledar" to_schema="dryhitec" to_table="dry_caledar" >
+				<fk_column name="id" pk="id_jobs" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_states" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="state" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="state_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_states" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_dry_states_dry_cities" to_schema="dryhitec" to_table="dry_cities" >
+				<fk_column name="id" pk="id_state" />
+			</fk>
+			<fk name="fk_dry_states_dry_insurance_company" to_schema="dryhitec" to_table="dry_insurance_company" >
+				<fk_column name="id" pk="id_state" />
+			</fk>
+			<fk name="fk_dry_states_dry_customers" to_schema="dryhitec" to_table="dry_customers" >
+				<fk_column name="id" pk="id_state" />
+			</fk>
+			<fk name="fk_dry_states_dry_clients" to_schema="dryhitec" to_table="dry_clients" >
+				<fk_column name="id" pk="id_state" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="dry_users" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="first_name" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="last_name" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="sex" type="CHAR" length="1" jt="1" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="block" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="lock_reason" type="TEXT" jt="-1" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="photo" type="TEXT" jt="-1" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="code_activation" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="email" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="email_verified_at" type="TIMESTAMP" jt="93" />
+			<column name="password" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="access_system" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="first_use" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="remember_token" type="VARCHAR" length="100" jt="12" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="user_status" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_deleted" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_updated" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="user_created" type="TINYINT" length="1" jt="-6" mandatory="y" />
+			<column name="role" type="VARCHAR" length="20" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<column name="deleted_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_dry_users" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="dry_users_email_unique" unique="UNIQUE_KEY" >
+				<column name="email" />
+			</index>
+			<index name="unq_dry_users_role" unique="UNIQUE_KEY" >
+				<column name="role" />
+			</index>
+			<fk name="fk_dry_users_password_resets" to_schema="dryhitec" to_table="password_resets" >
+				<fk_column name="email" pk="email" />
+			</fk>
+			<fk name="fk_dry_users_dry_employee" to_schema="dryhitec" to_table="dry_employee" >
+				<fk_column name="id" pk="id_user" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="failed_jobs" row_count="0" spec="" >
+			<column name="id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="uuid" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="connection" type="TEXT" jt="-1" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="queue" type="TEXT" jt="-1" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="payload" type="LONGTEXT" jt="-1" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="exception" type="LONGTEXT" jt="-1" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="failed_at" type="TIMESTAMP" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<index name="pk_failed_jobs" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="failed_jobs_uuid_unique" unique="UNIQUE_KEY" >
+				<column name="uuid" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="migrations" row_count="0" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="migration" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="batch" type="INT" jt="4" mandatory="y" />
+			<index name="pk_migrations" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="model_has_permissions" row_count="0" spec="" >
+			<column name="permission_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="model_type" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="model_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<index name="pk_model_has_permissions" unique="PRIMARY_KEY" >
+				<column name="permission_id" />
+				<column name="model_id" />
+				<column name="model_type" />
+			</index>
+			<index name="model_has_permissions_model_id_model_type_index" unique="NORMAL" >
+				<column name="model_id" />
+				<column name="model_type" />
+			</index>
+			<fk name="model_has_permissions_permission_id_foreign" to_schema="dryhitec" to_table="permissions" delete_action="cascade" options="" >
+				<fk_column name="permission_id" pk="id" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="model_has_roles" row_count="0" spec="" >
+			<column name="role_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="model_type" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="model_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<index name="pk_model_has_roles" unique="PRIMARY_KEY" >
+				<column name="role_id" />
+				<column name="model_id" />
+				<column name="model_type" />
+			</index>
+			<index name="model_has_roles_model_id_model_type_index" unique="NORMAL" >
+				<column name="model_id" />
+				<column name="model_type" />
+			</index>
+			<fk name="model_has_roles_role_id_foreign" to_schema="dryhitec" to_table="roles" delete_action="cascade" options="" >
+				<fk_column name="role_id" pk="id" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="password_resets" row_count="0" spec="" >
+			<column name="email" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="token" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<index name="password_resets_email_index" unique="UNIQUE_KEY" >
+				<column name="email" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="permissions" row_count="0" spec="" >
+			<column name="id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="name" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="guard_name" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_permissions" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="permissions_name_guard_name_unique" unique="UNIQUE_KEY" >
+				<column name="name" />
+				<column name="guard_name" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="products" row_count="0" spec="" >
+			<column name="id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="name" type="VARCHAR" length="255" jt="12" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="description" type="VARCHAR" length="255" jt="12" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="price" type="DECIMAL" length="8" decimal="2" jt="3" >
+				<defo><![CDATA['0.00']]></defo>
+			</column>
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_products" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="role_has_permissions" row_count="0" spec="" >
+			<column name="permission_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="role_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<index name="pk_role_has_permissions" unique="PRIMARY_KEY" >
+				<column name="permission_id" />
+				<column name="role_id" />
+			</index>
+			<index name="role_has_permissions_role_id_foreign" unique="NORMAL" >
+				<column name="role_id" />
+			</index>
+			<fk name="role_has_permissions_permission_id_foreign" to_schema="dryhitec" to_table="permissions" delete_action="cascade" options="" >
+				<fk_column name="permission_id" pk="id" />
+			</fk>
+			<fk name="role_has_permissions_role_id_foreign" to_schema="dryhitec" to_table="roles" delete_action="cascade" options="" >
+				<fk_column name="role_id" pk="id" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+		<table name="roles" row_count="0" spec="" >
+			<column name="id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="name" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="guard_name" type="VARCHAR" length="255" jt="12" mandatory="y" >
+				<column_options><![CDATA[COLLATE utf8mb4_unicode_ci]]></column_options>
+			</column>
+			<column name="created_at" type="TIMESTAMP" jt="93" />
+			<column name="updated_at" type="TIMESTAMP" jt="93" />
+			<index name="pk_roles" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="roles_name_guard_name_unique" unique="UNIQUE_KEY" >
+				<column name="name" />
+				<column name="guard_name" />
+			</index>
+			<fk name="fk_roles_dry_users" to_schema="dryhitec" to_table="dry_users" options="" >
+				<fk_column name="name" pk="role" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci]]></options>
+		</table>
+	</schema>
+	<connector name="MySql" database="MySql" driver_class="com.mysql.jdbc.Driver" driver_jar="mysql-connector-java-8.0.28.jar" driver_desc="Standard" host="localhost" port="3306" instance="dryhitec" user="ismaelfrica" passwd="aXNtYWVsZnJpY2E=" />
+	<layout name="Main Layout" id="Layout-1104" show_relation="columns" >
+		<entity schema="dryhitec" name="dry_caledar" color="BED3F4" x="1232" y="80" />
+		<entity schema="dryhitec" name="dry_cities" color="3986C1" x="640" y="784" />
+		<entity schema="dryhitec" name="dry_clients" color="C7F4BE" x="1616" y="80" />
+		<entity schema="dryhitec" name="dry_clients_contact" color="C7F4BE" x="1808" y="128" />
+		<entity schema="dryhitec" name="dry_clients_email" color="C7F4BE" x="1424" y="128" />
+		<entity schema="dryhitec" name="dry_customer_contact" color="C7F4BE" x="1296" y="912" />
+		<entity schema="dryhitec" name="dry_customer_insured" color="C7F4BE" x="1664" y="864" />
+		<entity schema="dryhitec" name="dry_customers" color="C7F4BE" x="1488" y="864" />
+		<entity schema="dryhitec" name="dry_employee" color="F4DDBE" x="992" y="80" />
+		<entity schema="dryhitec" name="dry_insurance_company" color="F4DDBE" x="1312" y="512" />
+		<entity schema="dryhitec" name="dry_insurance_company_contact" color="F4DDBE" x="1568" y="512" />
+		<entity schema="dryhitec" name="dry_insurance_company_email" color="F4DDBE" x="1008" y="512" />
+		<entity schema="dryhitec" name="dry_jobs" color="C7F4BE" x="1888" y="448" />
+		<entity schema="dryhitec" name="dry_states" color="BEBEF4" x="432" y="816" />
+		<entity schema="dryhitec" name="dry_users" color="BEBEF4" x="240" y="304" />
+		<entity schema="dryhitec" name="failed_jobs" color="BED3F4" x="736" y="384" />
+		<entity schema="dryhitec" name="migrations" color="BED3F4" x="464" y="480" />
+		<entity schema="dryhitec" name="model_has_permissions" color="BEBEF4" x="720" y="80" />
+		<entity schema="dryhitec" name="model_has_roles" color="BEBEF4" x="48" y="112" />
+		<entity schema="dryhitec" name="password_resets" color="BED3F4" x="816" y="240" />
+		<entity schema="dryhitec" name="permissions" color="BEBEF4" x="496" y="80" />
+		<entity schema="dryhitec" name="role_has_permissions" color="BEBEF4" x="496" y="304" />
+		<entity schema="dryhitec" name="roles" color="BEBEF4" x="272" y="80" />
+		<group name="dry_caledar" color="ECF0F7" >
+			<comment><![CDATA[a]]></comment>
+			<entity schema="dryhitec" name="dry_caledar" />
+		</group>
+		<group name="Company" color="F7F2EC" >
+			<entity schema="dryhitec" name="dry_insurance_company_contact" />
+			<entity schema="dryhitec" name="dry_insurance_company_email" />
+			<entity schema="dryhitec" name="dry_insurance_company" />
+		</group>
+		<group name="Jobs" color="EEF7EC" >
+			<entity schema="dryhitec" name="dry_jobs" />
+		</group>
+		<group name="Users and rols" color="ECECF7" >
+			<entity schema="dryhitec" name="roles" />
+			<entity schema="dryhitec" name="permissions" />
+			<entity schema="dryhitec" name="role_has_permissions" />
+			<entity schema="dryhitec" name="model_has_roles" />
+			<entity schema="dryhitec" name="model_has_permissions" />
+			<entity schema="dryhitec" name="failed_jobs" />
+			<entity schema="dryhitec" name="password_resets" />
+			<entity schema="dryhitec" name="migrations" />
+			<entity schema="dryhitec" name="dry_users" />
+		</group>
+		<group name="City and states" color="C4E0F9" >
+			<entity schema="dryhitec" name="dry_cities" />
+			<entity schema="dryhitec" name="dry_states" />
+		</group>
+		<group name="Clients" color="C4E0F9" >
+			<entity schema="dryhitec" name="dry_clients_email" />
+			<entity schema="dryhitec" name="dry_clients_contact" />
+			<entity schema="dryhitec" name="dry_clients" />
+		</group>
+		<group name="Customers" color="C4E0F9" >
+			<entity schema="dryhitec" name="dry_customer_contact" />
+			<entity schema="dryhitec" name="dry_customer_insured" />
+			<entity schema="dryhitec" name="dry_customers" />
+		</group>
+		<group name="Employee" color="C4E0F9" >
+			<entity schema="dryhitec" name="dry_employee" />
+		</group>
+	</layout>
+	<layout name="~Layout with Sample Tools" id="Layout-c0f" show_column_type="y" show_relation="columns" >
+		<entity schema="dryhitec" name="dry_caledar" color="BED3F4" x="1680" y="48" />
+		<entity schema="dryhitec" name="dry_cities" color="C7F4BE" x="2976" y="1184" />
+		<entity schema="dryhitec" name="dry_clients" color="C7F4BE" x="2640" y="816" />
+		<entity schema="dryhitec" name="dry_clients_contact" color="C7F4BE" x="3264" y="816" />
+		<entity schema="dryhitec" name="dry_clients_email" color="C7F4BE" x="2976" y="816" />
+		<entity schema="dryhitec" name="dry_customer_contact" color="C7F4BE" x="3264" y="1120" />
+		<entity schema="dryhitec" name="dry_customer_insured" color="C7F4BE" x="3568" y="1120" />
+		<entity schema="dryhitec" name="dry_customers" color="C7F4BE" x="3264" y="1424" />
+		<entity schema="dryhitec" name="dry_employee" color="F4DDBE" x="1664" y="1168" />
+		<entity schema="dryhitec" name="dry_insurance_company" color="F4DDBE" x="1360" y="816" />
+		<entity schema="dryhitec" name="dry_insurance_company_contact" color="F4DDBE" x="1968" y="816" />
+		<entity schema="dryhitec" name="dry_insurance_company_email" color="F4DDBE" x="1664" y="816" />
+		<entity schema="dryhitec" name="dry_jobs" color="C7F4BE" x="2320" y="816" />
+		<entity schema="dryhitec" name="dry_states" color="BEBEF4" x="688" y="480" />
+		<entity schema="dryhitec" name="dry_users" color="BEBEF4" x="336" y="272" />
+		<entity schema="dryhitec" name="failed_jobs" color="BED3F4" x="1984" y="48" />
+		<entity schema="dryhitec" name="migrations" color="BED3F4" x="1984" y="400" />
+		<entity schema="dryhitec" name="model_has_permissions" color="BEBEF4" x="1008" y="48" />
+		<entity schema="dryhitec" name="model_has_roles" color="BEBEF4" x="48" y="80" />
+		<entity schema="dryhitec" name="password_resets" color="BED3F4" x="1680" y="400" />
+		<entity schema="dryhitec" name="permissions" color="BEBEF4" x="688" y="48" />
+		<entity schema="dryhitec" name="products" color="BED3F4" x="1360" y="400" />
+		<entity schema="dryhitec" name="role_has_permissions" color="BEBEF4" x="688" y="272" />
+		<entity schema="dryhitec" name="roles" color="BEBEF4" x="368" y="48" />
+		<script name="SQL Editor" id="Editor-24f2" language="SQL" >
+			<string><![CDATA[SELECT id, name, guard_name, created_at, updated_at
+FROM
+	dryhitec.roles s;]]></string>
+		</script>
+		<browser id="Browse-1ab7" name="Relational Data Editor" confirm_updates="y" >
+			<browse_table schema="dryhitec" entity="roles" x="20" y="20" width="400" height="300" >
+				<browse_table schema="dryhitec" entity="model_has_roles" fk="model_has_roles_role_id_foreign" x="440" y="20" width="500" height="350" />
+			</browse_table>
+		</browser>
+		<query id="Query-2491" name="Query Builder" >
+			<query_table schema="dryhitec" name="roles" alias="r" x="48" y="48" >
+				<column name="id" />
+				<column name="name" />
+				<column name="guard_name" />
+				<column name="created_at" />
+				<column name="updated_at" />
+				<query_table schema="dryhitec" name="model_has_roles" alias="mhr" x="240" y="48" fk="model_has_roles_role_id_foreign" type="Inner Join" >
+					<column name="role_id" />
+					<column name="model_type" />
+					<column name="model_id" />
+				</query_table>
+			</query_table>
+		</query>
+		<form name="Analytic Application" id="Report-1a41" template="Page" css="container-fluid" view="frame" >
+			<var name="samplePageNumber" type="4" value="0" mandatory="n" />
+			<var name="sampleRecordsPerPage" type="4" value="100" mandatory="n" />
+			<body name="Body" template="Grid" pos="0,0,0,0,f,f" layout="{{-2,-2,-2,-2,-1},{-2,-2,-2,-2}}" scroll="n" html="n" >
+				<cell type="label" name="Roles Data" template="H3" pos="0,0,1,0,l,c" />
+				<cell type="chart" name="Pie" template="Pie" pos="0,1,4,1,l,c" max_records="20" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="id" type="-5" />
+						<var name="name" />
+						<var name="guard_name" />
+						<var name="created_at" type="93" />
+						<var name="updated_at" type="93" />
+						<script ><![CDATA[SELECT * FROM dryhitec.roles]]></script>
+					</form_script>
+					<param name="i0" value="guard_name" />
+					<param name="width" value="100%" />
+					<param name="v0" value="id" />
+					<param name="title" value="Sample Chart" />
+					<param name="height" value="400px" />
+				</cell>
+				<tableview name="sample" template="Table" css="table table-striped table-sm table-hover" pos="0,2,4,2,f,f" layout="{{-2,-2,-2,-2,-2,-2},{-2,-2}}" scroll="n" html="n" header_rows="1" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="id" type="-5" />
+						<var name="name" />
+						<var name="guard_name" />
+						<var name="created_at" type="93" />
+						<var name="updated_at" type="93" />
+						<script ><![CDATA[SELECT * FROM dryhitec.roles]]></script>
+					</form_script>
+					<cell type="label" name="id" pos="0,0,0,0,c,c" />
+					<cell type="label" name="name" pos="1,0,1,0,c,c" />
+					<cell type="label" name="guard_name" pos="2,0,2,0,c,c" />
+					<cell type="label" name="created_at" pos="3,0,3,0,c,c" />
+					<cell type="label" name="updated_at" pos="4,0,4,0,c,c" />
+					<cell type="label" name="Button can open other pages." pos="5,0,5,0,c,c" />
+					<cell type="label" name="${id}" template="Plain" pos="0,1,0,1,l,c" />
+					<cell type="label" name="${name}" template="Plain" pos="1,1,1,1,l,c" />
+					<cell type="label" name="${guard_name}" template="Plain" pos="2,1,2,1,l,c" />
+					<cell type="label" name="${created_at}" template="Plain" pos="3,1,3,1,l,c" />
+					<cell type="label" name="${updated_at}" template="Plain" pos="4,1,4,1,l,c" />
+					<cell type="button" name="More" template="Plain" css="btn btn-default btn-success" pos="5,1,5,1,c,c" ref_id="Report-1a41" />
+				</tableview>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="0,3,0,3,l,c" glyph="FA-ANGLE_DOUBLE_LEFT" ref_id="Report-1a41" >
+					<var name="samplePageNumber" value="0" />
+				</cell>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="1,3,1,3,l,c" glyph="FA-ANGLE_LEFT" ref_id="Report-1a41" >
+					<var name="samplePageNumber" value="${Math.max(0,samplePageNumber-1)}" />
+				</cell>
+				<cell type="label" name="Page ${samplePageNumber+1}" pos="2,3,2,3,l,c" />
+				<cell type="href" name="" disabled="${!sampleHasNextPage}" pos="3,3,3,3,l,c" glyph="FA-ANGLE_RIGHT" ref_id="Report-1a41" >
+					<var name="samplePageNumber" value="${( samplePageNumber+1 )}" />
+				</cell>
+			</body>
+		</form>
+	</layout>
+</project>

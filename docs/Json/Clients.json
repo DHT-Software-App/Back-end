@@ -1,0 +1,11 @@
+{
+    "userid": "8",
+    "person_contact":"IKelvinsmae",
+    "company" : "demo",
+    "street" : "MiraMar Norte esquina calle 3",
+    "id_city" : "1",
+    "id_state": "1",
+    "zip":"3434",
+    "contact":["29929292","2929393","232392"],
+    "email": ["demo@gmail.com","kelvin@gmail.com"]
+}

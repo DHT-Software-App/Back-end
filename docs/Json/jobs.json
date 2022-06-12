@@ -1,0 +1,13 @@
+{
+    "userid" : "4",
+    "id_customers" : "23",
+    "id_insurance_company": "1",
+    "policy_number" : "3434",
+    "claim_number" : "1343",
+    "date_loss" : "2022-08-22",
+    "id_type_loss" : "1",
+    "text":"texto",
+    "referred_by": "1",
+    "id_job_status": "1",
+    "id_type_work": "1"
+}
