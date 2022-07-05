@@ -17,7 +17,6 @@ class CreateDryClientsTable extends Migration
             $table->bigIncrements('id');
             $table->string('person_contact',70);
             $table->string('company');
-            $table->string('email',100);
             $table->string('street',50);
             $table->unsignedBigInteger('id_city')->references('id')->on('dry_cities')->onDelete('cascade');
             $table->unsignedBigInteger('id_state')->references('id')->on('dry_states')->onDelete('cascade');

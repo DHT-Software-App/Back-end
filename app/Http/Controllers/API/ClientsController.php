@@ -21,11 +21,13 @@ class ClientsController extends BaseController
      */
     public function index(){
         //$clients = Clients::all();
-        $clients = \DB::select("SELECT c.id,c.person_contact, c.company, c.email, c.street,c.id_city,c.id_state,c.zip,c.client_status,
+        $clients = \DB::select("    SELECT c.id,c.person_contact, c.company, c.street,c.id_city,ci.city,c.id_state,s.state,c.zip,c.client_status,
         GROUP_CONCAT(cc.`contact`) contact, GROUP_CONCAT(ce.`email`) email
         FROM dry_clients c
         LEFT JOIN `dry_clients_contact` cc ON cc.`id_client`=c.`id`
         LEFT JOIN `dry_clients_email` ce ON ce.`id_client`=c.`id`
+	    LEFT JOIN `dry_cities` ci ON ci.id = c.id_city
+	    LEFT JOIN `dry_states` s ON s.id = c.id_state
         WHERE c.`user_deleted`=?
         GROUP BY c.`id`",[0]);
         return $this->sendResponse(

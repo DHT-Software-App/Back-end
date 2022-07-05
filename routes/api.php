@@ -13,6 +13,9 @@ use App\Http\Controllers\API\InsuredCompanyController;
 use App\Http\Controllers\API\EmployeeController;
 use App\Http\Controllers\API\ClientsController;
 use App\Http\Controllers\FunctionsController;
+use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\RolesController;
+use App\Http\Controllers\API\PermissionController;
 //use App\Http\Controllers\MailerController;
 
 /*
@@ -47,8 +50,16 @@ Route::post('logout', [RegisterController::class, 'logout']);
     Route::resource('employees', EmployeeController::class);
     Route::resource('clients',ClientsController::class);
     Route::resource('calendars', CalendarController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('roles', RolesController::class);
+    Route::resource('permissions', PermissionController::class);
 
-    Route::get('customers/detailscontact/{id_customer}',[CustomersController::class,'detailsCustomerContact']);
+    Route::get('permissions/roles/{id}',[PermissionController::class ,'rolesPermission']);
+    
+    Route::post('roles/assing',[RolesController::class,'assingRoles']);
+
+
+    Route::get('customers/detailscontact/{id_customer}',[CustomersController::class,'rolesPermission']);
     Route::get('customers/detailsinsured/{id_customer}',[CustomersController::class,'detailsCustomerInsured']);
 
     Route::get('employees/detailscontact/{id_employee}',[EmployeeController::class,'detailsEmployeesContact']);

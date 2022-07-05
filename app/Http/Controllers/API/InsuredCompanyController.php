@@ -20,7 +20,17 @@ class InsuredCompanyController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $insuredcompany = InsuredCompany::all();
+        $insuredcompany = \DB::select("
+        SELECT ic.id,ic.company,ic.id_city,ci.city,ic.id_state,s.state,ic.zip,ic.street,
+        GROUP_CONCAT(icc.`contact`) contact, GROUP_CONCAT(ice.`email`) email
+        FROM `dry_insurance_company` ic
+        LEFT JOIN `dry_cities` ci ON ci.id = ic.id_city
+        LEFT JOIN `dry_states` s ON s.id = ic.id_state
+        LEFT JOIN `dry_insurance_company_contact` icc ON icc.id_insurance_company = ic.id
+        LEFT JOIN `dry_insurance_company_email` ice  ON ice.id_insurance_company = ic.id
+        WHERE ic.`user_deleted`=?
+        GROUP BY ic.`id`
+        ", [0]);
         return $this->sendResponse(InsuredCompanyResource::collection($insuredcompany), 'Insured Company retrieved successfully.');
     }
     /**

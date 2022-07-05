@@ -15,13 +15,36 @@ class InsuredCompanyResource extends JsonResource
     
     public function toArray($request)
     {
+        $this->contact = explode(",", $this->contact);
+        $this->email = explode(",", $this->email);
         return [
-            'id' => $this->id,
-            'company' => $this->company,
-            'street' => $this->street,
-            'id_city' => $this->id_city,
-            'id_state' => $this->id_state,
-            'zip' => $this->zip,
+            "types"=>"Clients",
+            'attribute' => [
+                'id' => $this->id,
+                'company' => $this->company,
+                'street' => $this->street,
+                'zip' => $this->zip,
+                'contact'=> $this->contact,
+                'email'=> $this->email
+            ],
+            "relationships"=>[
+                "city"=>[ 
+                    "data"=>[
+                      "type"=> "city",
+                      "id"=> $this->id_city,
+                      "name"=>  $this->city,
+                      "links" => env('APP_URL')."/api/cities"
+                    ]
+                ],
+                "state"=>[ 
+                    "data"=>[
+                      "type"=> "state",
+                      "id"=>  $this->id_state,
+                      "name"=>  $this->state,
+                      "links" => env('APP_URL')."/api/states"
+                    ]
+                ]
+            ],
         ];
     }
 }

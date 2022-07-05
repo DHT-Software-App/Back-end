@@ -18,7 +18,9 @@ class CityController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $cities = City::all();
+        $cities = City::where("city_status","=","1")
+                      ->where("user_deleted","=","0")
+                      ->get();
         return $this->sendResponse(CityResource::collection($cities), 'city retrieved successfully.');
     }
     /**

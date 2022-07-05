@@ -32,6 +32,7 @@ class CustomersResource extends JsonResource
                     "data"=>[
                       "type"=> "city",
                       "id"=> $this->id_city,
+                      "name"=>  $this->city,
                       "links" => env('APP_URL')."/api/cities"
                     ]
                 ],
@@ -39,6 +40,7 @@ class CustomersResource extends JsonResource
                     "data"=>[
                       "type"=> "state",
                       "id"=>  $this->id_state,
+                      "name"=>  $this->state,
                       "links" => env('APP_URL')."/api/states"
                     ]
                 ],

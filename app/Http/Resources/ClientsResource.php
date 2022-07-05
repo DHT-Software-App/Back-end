@@ -33,17 +33,20 @@ class ClientsResource extends JsonResource
                 "city"=>[ 
                     "data"=>[
                       "type"=> "city",
-                      "id"=> $this->id_city
+                      "id"=> $this->id_city,
+                      "name"=>  $this->city,
+                      "links" => env('APP_URL')."/api/cities"
                     ]
                 ],
                 "state"=>[ 
                     "data"=>[
                       "type"=> "state",
-                      "id"=>  $this->id_state
+                      "id"=>  $this->id_state,
+                      "name"=>  $this->state,
+                      "links" => env('APP_URL')."/api/states"
                     ]
                 ]
-                
-        ],
+            ],
             'client_status'  => $this->client_status,
         ];
     }

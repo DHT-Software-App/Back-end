@@ -52,8 +52,8 @@ class UserController extends Controller
 
     public function readEmail($email)
     {
-       $user_id = \DB::table('dry_users')->where('email', $email)->first();
-     
+        $user_id = \DB::table('dry_users')->where('email', $email)->first();
+      //  $this->show($user_id);
       return $user_id;
     }
 

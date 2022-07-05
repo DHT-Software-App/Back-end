@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CityResource extends JsonResource
+class RolesResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,18 +14,17 @@ class CityResource extends JsonResource
      */
     public function toArray($request)
     {
-        
         return [
-            "types"=>"City",
+            "types"=>"Roles",
             'attribute' => [
-                'id'       => $this->id,
-                'city'     => $this->city,
+                'id' => $this->id,
+                'name' => $this->name,
             ],
             "relationships"=>[
-                "state"=>[ 
+                "Permission"=>[ 
                     "data"=>[
-                      "type"=> "state",
-                      "id"=>  $this->id_state
+                      "type"=> "Permission",
+                      "links" => env('APP_URL')."/api/roles/permission/".$this->id
                     ]
                 ]
             ]

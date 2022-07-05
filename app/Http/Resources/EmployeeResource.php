@@ -31,6 +31,7 @@ class EmployeeResource extends JsonResource
                     "data"=>[
                       "type"=> "city",
                       "id"=> $this->id_city,
+                      "name"=> $this->city,
                       "links" => env('APP_URL')."/api/cities"
                     ]
                 ],
@@ -38,29 +39,20 @@ class EmployeeResource extends JsonResource
                     "data"=>[
                       "type"=> "state",
                       "id"=>  $this->id_state,
+                      "state"=> $this->state,
                       "links" => env('APP_URL')."/api/states"
                     ]
                 ],
                 "contact"=>[ 
                     "data"=>[
-                      "type"=> "contact and ",
-                      "links"=> env('APP_URL')."/api/employees/detailscontact/",
+                      "type"    => "contact",
+                      "links"   => env('APP_URL')."/api/employees/detailscontact/",
+                      "contact" => $this->contact,
                       "message" => "this link recivied id employees"
                     ]
                 ],
         ],
             'employee_status'  => $this->employee_status,
         ];
-        // return [
-        //     'id' => $this->id,
-        //     'first_name' => $this->first_name,
-        //     'last_name' => $this->last_name,
-        //     'email' => $this->email,
-        //     'street' => $this->street,
-        //     'id_city' => $this->id_city,
-        //     'id_state' => $this->id_state,
-        //     'zip' => $this->zip,
-        //     'origin' => $this->origin,
-        // ];
     }
 }

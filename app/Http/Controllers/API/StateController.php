@@ -18,7 +18,9 @@ class StateController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $states = State::all();
+        $states = State::where('state_status', '=', 1)
+                       ->where("user_deleted","=","0")
+                       ->get();
         return $this->sendResponse(StateResource::collection($states), 'state retrieved successfully.');
     }
     /**
@@ -65,12 +67,12 @@ class StateController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function show($id){
-        $customers = State::find($id);
+        $states = State::find($id);
 
-        if (is_null($customers)) {
-            return $this->sendError('Customers not found.');
+        if (is_null($states)) {
+            return $this->sendError('State not found.');
         }
-        return $this->sendResponse(new StateResource($customers), 'Costumers retrieved successfully.');
+        return $this->sendResponse(new StateResource($states), 'State retrieved successfully.');
     }
     /**
      * Update the specified resource in storage.

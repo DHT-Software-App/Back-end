@@ -26,7 +26,14 @@ class EmployeeController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $employees = Employee::all();
+        $employees = \DB::select("SELECT e.id,e.first_name,e.last_name,e.street,
+        e.email,e.id_city,ci.city,e.id_state,s.state,e.zip,e.employee_status,
+        GROUP_CONCAT(ec.contact) contact
+       FROM `dry_employee` e
+       LEFT JOIN `dry_cities` ci ON ci.id = e.id_city
+       LEFT JOIN `dry_states` s ON s.id = e.id_state
+       LEFT JOIN `dry_employee_contact` ec ON ec.id_employee = e.id
+        WHERE e.`user_deleted`=? GROUP BY e.id ", [0]);
         return $this->sendResponse(EmployeeResource::collection($employees), 'Employee retrieved successfully.');
     }
     /**

@@ -9,6 +9,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FunctionsController;
 use Illuminate\Support\Facades\Hash;
 use Validator;
+use Laravel\Passport\Passport;
+use Carbon\Carbon;
 
 class RegisterController extends BaseController
 {
@@ -70,9 +72,14 @@ class RegisterController extends BaseController
             if($loadData->block==0)
             {
                 $user = Auth::user(); 
+                Passport::personalAccessTokensExpireIn(Carbon::now()->addMinute(60));
                 $success['id'] = $user->id;
-                $success['token'] =  $user->createToken('MyApp')-> accessToken; 
+                $success['token'] =  $user->createToken('MyApp')->accessToken; 
                 $success['first_use'] =  $user->first_use;
+                $success['date_expire'] = substr($user->createToken('MyApp')->token->expires_at,0,10);
+                $success['hour_expire'] = substr($user->createToken('MyApp')->token->expires_at,11,8);
+                $success['vigence'] = "1 hour";
+
                 $message = $this->sendResponse($success, 'User login successfully.');
             }else{
                 $message = $this->sendError("Account block",  ['error'=>$loadData->lock_reason]);

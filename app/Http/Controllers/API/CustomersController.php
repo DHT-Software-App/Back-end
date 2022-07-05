@@ -22,11 +22,16 @@ class CustomersController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $customers = \DB::select("SELECT c.id,c.first_name,c.last_name,c.street, '' contact,
-       '' insured,
-         c.email,c.id_city,c.id_state,c.zip,c.customer_status
-        FROM `dry_customers` c
-        WHERE c.`user_deleted`=?",[0]);
+        $customers = \DB::select("SELECT c.id,c.first_name,c.last_name,c.street,
+        c.email,c.id_city,ci.city,c.id_state,s.state,c.zip,c.customer_status,
+        GROUP_CONCAT(cc.telephone) contact,
+        GROUP_CONCAT(CONCAT(i.first_name,' ',i.last_name)) insured
+       FROM `dry_customers` c
+       LEFT JOIN `dry_cities` ci ON ci.id = c.id_city
+       LEFT JOIN `dry_states` s ON s.id = c.id_state
+       LEFT JOIN `dry_customer_contact` cc ON cc.id_customers = c.id
+       LEFT JOIN `dry_customer_insured` i ON i.id_customers = c.id
+        WHERE c.`user_deleted`=? GROUP BY c.id",[0]);
         return $this->sendResponse(
             CustomersResource::collection($customers), 
             'Customers retrieved successfully.'
