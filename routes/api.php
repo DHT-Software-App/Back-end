@@ -6,6 +6,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -121,7 +122,7 @@ Route::group([
 });
 
 
-// client
+// clients
 
 Route::group([
     'middleware' => ['api'],
@@ -141,7 +142,7 @@ Route::group([
 });
 
 
-// customer
+// customers
 Route::group([
     'middleware' => ['api'],
     'prefix' => 'customers'
@@ -156,5 +157,23 @@ Route::group([
         Route::get('/', [CustomerController::class, 'show']);
         Route::put('/', [CustomerController::class, 'update']);
         Route::delete('/', [CustomerController::class, 'delete']);
+    });
+});
+
+// insurances
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'insurances'
+
+], function ($router) {
+    Route::get('/', [InsuranceController::class, 'index']);
+
+    Route::post('/', [InsuranceController::class, 'store']);
+
+    Route::group(['prefix' => '{insurance}'], function ($router) {
+
+        Route::get('/', [InsuranceController::class, 'show']);
+        Route::put('/', [InsuranceController::class, 'update']);
+        Route::delete('/', [InsuranceController::class, 'delete']);
     });
 });

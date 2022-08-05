@@ -6,7 +6,6 @@ use App\Http\Requests\CustomerRequest;
 use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CustomerController extends Controller

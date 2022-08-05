@@ -122,6 +122,27 @@ class RoleSeeder extends Seeder
             'title' => 'clients'
         ]);
 
+        // insurance
+        $viewInsurance = Bouncer::ability()->create([
+            'name' => 'view:insurances',
+            'title' => 'insurances'
+        ]);
+
+        $createInsurance = Bouncer::ability()->create([
+            'name' => 'create:insurances',
+            'title' => 'insurances'
+        ]);
+
+        $updateInsurance = Bouncer::ability()->create([
+            'name' => 'update:insurances',
+            'title' => 'insurances'
+        ]);
+
+        $deleteInsurance = Bouncer::ability()->create([
+            'name' => 'delete:insurances',
+            'title' => 'insurances'
+        ]);
+
 
         Bouncer::allow($manager)->to($viewAdmin);
         Bouncer::allow($manager)->to($viewEmployee);
@@ -156,5 +177,16 @@ class RoleSeeder extends Seeder
         Bouncer::allow($admin)->to($createClient);
         Bouncer::allow($admin)->to($updateClient);
         Bouncer::allow($admin)->to($deleteClient);
+
+        // insurance
+        Bouncer::allow($manager)->to($viewInsurance);
+        Bouncer::allow($manager)->to($createInsurance);
+        Bouncer::allow($manager)->to($updateInsurance);
+        Bouncer::allow($manager)->to($deleteInsurance);
+
+        Bouncer::allow($admin)->to($viewInsurance);
+        Bouncer::allow($admin)->to($createInsurance);
+        Bouncer::allow($admin)->to($updateInsurance);
+        Bouncer::allow($admin)->to($deleteInsurance);
     }
 }

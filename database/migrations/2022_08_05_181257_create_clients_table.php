@@ -17,8 +17,8 @@ class CreateClientsTable extends Migration
             $table->id();
             $table->string('firstname', 50);
             $table->string('lastname', 50);
-            $table->string('email_address_1', 100)->unique();
-            $table->string('email_address_2', 100)->unique();
+            $table->string('email_address_1', 100);
+            $table->string('email_address_2', 100);
             $table->string('contact_1', 50);
             $table->string('contact_2', 50);
             $table->string('state', 45);
