@@ -11,7 +11,7 @@ class RoleSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
-     */ 
+     */
     public function run()
     {
         // Roles
@@ -59,13 +59,13 @@ class RoleSeeder extends Seeder
             'title' => 'employees'
         ]);
 
-         // technician
-         $viewTechnician = Bouncer::ability()->create([
+        // technician
+        $viewTechnician = Bouncer::ability()->create([
             'name' => 'view:technician',
             'title' => 'employees'
         ]);
 
-         $createTechnician = Bouncer::ability()->create([
+        $createTechnician = Bouncer::ability()->create([
             'name' => 'create:technician',
             'title' => 'employees'
         ]);
@@ -78,6 +78,48 @@ class RoleSeeder extends Seeder
         $deleteTechnician = Bouncer::ability()->create([
             'name' => 'delete:technician',
             'title' => 'employees'
+        ]);
+
+        // customer
+        $viewCustomer = Bouncer::ability()->create([
+            'name' => 'view:customers',
+            'title' => 'customers'
+        ]);
+
+        $createCustomer = Bouncer::ability()->create([
+            'name' => 'create:customers',
+            'title' => 'customers'
+        ]);
+
+        $updateCustomer = Bouncer::ability()->create([
+            'name' => 'update:customers',
+            'title' => 'customers'
+        ]);
+
+        $deleteCustomer = Bouncer::ability()->create([
+            'name' => 'delete:customers',
+            'title' => 'customers'
+        ]);
+
+        // client
+        $viewClient = Bouncer::ability()->create([
+            'name' => 'view:clients',
+            'title' => 'clients'
+        ]);
+
+        $createClient = Bouncer::ability()->create([
+            'name' => 'create:clients',
+            'title' => 'clients'
+        ]);
+
+        $updateClient = Bouncer::ability()->create([
+            'name' => 'update:clients',
+            'title' => 'clients'
+        ]);
+
+        $deleteClient = Bouncer::ability()->create([
+            'name' => 'delete:clients',
+            'title' => 'clients'
         ]);
 
 
@@ -93,5 +135,26 @@ class RoleSeeder extends Seeder
         Bouncer::allow($admin)->to($updateTechnician);
         Bouncer::allow($admin)->to($deleteTechnician);
 
+        // customer
+        Bouncer::allow($manager)->to($viewCustomer);
+        Bouncer::allow($manager)->to($createCustomer);
+        Bouncer::allow($manager)->to($updateCustomer);
+        Bouncer::allow($manager)->to($deleteCustomer);
+
+        Bouncer::allow($admin)->to($viewCustomer);
+        Bouncer::allow($admin)->to($createCustomer);
+        Bouncer::allow($admin)->to($updateCustomer);
+        Bouncer::allow($admin)->to($deleteCustomer);
+
+        // client
+        Bouncer::allow($manager)->to($viewClient);
+        Bouncer::allow($manager)->to($createClient);
+        Bouncer::allow($manager)->to($updateClient);
+        Bouncer::allow($manager)->to($deleteClient);
+
+        Bouncer::allow($admin)->to($viewClient);
+        Bouncer::allow($admin)->to($createClient);
+        Bouncer::allow($admin)->to($updateClient);
+        Bouncer::allow($admin)->to($deleteClient);
     }
 }
