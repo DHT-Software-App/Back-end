@@ -5,11 +5,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EstimateItemController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WorkTypeController;
 use Illuminate\Support\Facades\Route;
 
 // middleware we can use: 'verify.api'
@@ -175,5 +177,41 @@ Route::group([
         Route::get('/', [InsuranceController::class, 'show']);
         Route::put('/', [InsuranceController::class, 'update']);
         Route::delete('/', [InsuranceController::class, 'delete']);
+    });
+});
+
+// work types
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'work_types'
+
+], function ($router) {
+    Route::get('/', [WorkTypeController::class, 'index']);
+
+    Route::post('/', [WorkTypeController::class, 'store']);
+
+    Route::group(['prefix' => '{workType}'], function ($router) {
+
+        Route::get('/', [WorkTypeController::class, 'show']);
+        Route::put('/', [WorkTypeController::class, 'update']);
+        Route::delete('/', [WorkTypeController::class, 'delete']);
+    });
+});
+
+// estimate items
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'estimate_items'
+
+], function ($router) {
+    Route::get('/', [EstimateItemController::class, 'index']);
+
+    Route::post('/', [EstimateItemController::class, 'store']);
+
+    Route::group(['prefix' => '{estimateItem}'], function ($router) {
+
+        Route::get('/', [EstimateItemController::class, 'show']);
+        Route::put('/', [EstimateItemController::class, 'update']);
+        Route::delete('/', [EstimateItemController::class, 'delete']);
     });
 });

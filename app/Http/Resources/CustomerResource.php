@@ -29,7 +29,9 @@ class CustomerResource extends JsonResource
                     'street',
                     'city',
                     'zip',
-                    'has_insured'
+                    'has_insured',
+                    'created_at',
+                    'updated_at'
                 )
             ],
 

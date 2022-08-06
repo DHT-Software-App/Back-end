@@ -15,7 +15,7 @@ class CreateInsurancesTable extends Migration
     {
         Schema::create('insurances', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 75);
+            $table->string('name', 75)->unique();
             $table->string('email_address_1', 100);
             $table->string('email_address_2', 100);
             $table->string('state', 45);

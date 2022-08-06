@@ -29,6 +29,8 @@ class ClientResource extends JsonResource
                     'city',
                     'zip',
                     'company',
+                    'created_at',
+                    'updated_at'
                 )
             ],
 

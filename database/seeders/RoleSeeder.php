@@ -143,6 +143,48 @@ class RoleSeeder extends Seeder
             'title' => 'insurances'
         ]);
 
+        // work types
+        $viewWorkType = Bouncer::ability()->create([
+            'name' => 'view:worktypes',
+            'title' => 'worktypes'
+        ]);
+
+        $createWorkType = Bouncer::ability()->create([
+            'name' => 'create:worktypes',
+            'title' => 'worktypes'
+        ]);
+
+        $updateWorkType = Bouncer::ability()->create([
+            'name' => 'update:worktypes',
+            'title' => 'worktypes'
+        ]);
+
+        $deleteWorkType = Bouncer::ability()->create([
+            'name' => 'delete:worktypes',
+            'title' => 'worktypes'
+        ]);
+
+        // estimate item
+        $viewEstimateItem = Bouncer::ability()->create([
+            'name' => 'view:estimateitems',
+            'title' => 'estimateitems'
+        ]);
+
+        $createEstimateItem = Bouncer::ability()->create([
+            'name' => 'create:estimateitems',
+            'title' => 'estimateitems'
+        ]);
+
+        $updateEstimateItem = Bouncer::ability()->create([
+            'name' => 'update:estimateitems',
+            'title' => 'estimateitems'
+        ]);
+
+        $deleteEstimateItem = Bouncer::ability()->create([
+            'name' => 'delete:estimateitems',
+            'title' => 'estimateitems'
+        ]);
+
 
         Bouncer::allow($manager)->to($viewAdmin);
         Bouncer::allow($manager)->to($viewEmployee);
@@ -188,5 +230,27 @@ class RoleSeeder extends Seeder
         Bouncer::allow($admin)->to($createInsurance);
         Bouncer::allow($admin)->to($updateInsurance);
         Bouncer::allow($admin)->to($deleteInsurance);
+
+        // worktype
+        Bouncer::allow($manager)->to($viewWorkType);
+        Bouncer::allow($manager)->to($createWorkType);
+        Bouncer::allow($manager)->to($updateWorkType);
+        Bouncer::allow($manager)->to($deleteWorkType);
+
+        Bouncer::allow($admin)->to($viewWorkType);
+        Bouncer::allow($admin)->to($createWorkType);
+        Bouncer::allow($admin)->to($updateWorkType);
+        Bouncer::allow($admin)->to($deleteWorkType);
+
+        // estimate item
+        Bouncer::allow($manager)->to($viewEstimateItem);
+        Bouncer::allow($manager)->to($createEstimateItem);
+        Bouncer::allow($manager)->to($updateEstimateItem);
+        Bouncer::allow($manager)->to($deleteEstimateItem);
+
+        Bouncer::allow($admin)->to($viewEstimateItem);
+        Bouncer::allow($admin)->to($createEstimateItem);
+        Bouncer::allow($admin)->to($updateEstimateItem);
+        Bouncer::allow($admin)->to($deleteEstimateItem);
     }
 }

@@ -48,7 +48,7 @@ class CustomerController extends Controller
     public function delete(Customer $customer)
     {
 
-        // // delete employee
+        // // delete customer
         $customer->delete();
 
         return response()->json([
