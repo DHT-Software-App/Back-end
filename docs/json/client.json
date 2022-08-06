@@ -9,5 +9,10 @@
     "street": "SaintLawrence",
     "city": "Bronx",
     "zip": 32312,
-    "company": "Santana 2"
+    "company": "Santana 2",
+    "contacts": [
+        "809-750-3556",
+        "809-432-12323",
+        "829-323-3442"
+    ]
 }

@@ -14,15 +14,21 @@ class Employee extends Model
     use HasFactory;
     use HasRolesAndAbilities;
     use Authorizable;
-    
+
 
     protected $guarded = [];
 
-    public function user() : HasOne{
+    protected $casts = [
+        'contacts' => 'array'
+    ];
+
+    public function user(): HasOne
+    {
         return $this->hasOne(User::class);
     }
 
-    public function userProfile() : HasOneThrough {
+    public function userProfile(): HasOneThrough
+    {
         return $this->hasOneThrough(Profile::class, User::class);
     }
 }

@@ -20,13 +20,12 @@ class CreateCustomersTable extends Migration
             $table->string('insured_firstname', 50)->nullable();
             $table->string('insured_lastname', 50)->nullable();
             $table->string('email_address', 100);
-            $table->string('contact_1', 50);
-            $table->string('contact_2', 50);
             $table->string('state', 45);
             $table->string('street', 45);
             $table->string('city', 45);
             $table->string('zip');
             $table->boolean('has_insured');
+            $table->json('contacts');
             $table->timestamps();
         });
     }

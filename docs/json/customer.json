@@ -4,8 +4,10 @@
     "insured_firstname": "Phineas",
     "insured_lastname": "Lowels",
     "email_address": "g.edu@gmail.com",
-    "contact_1": "8094232112",
-    "contact_2": "8094232112",
+    "contact_1": [
+        "8094232112",
+        "8094232112"
+    ],
     "state": "New York",
     "street": "SaintLawrence",
     "city": "Bronx",

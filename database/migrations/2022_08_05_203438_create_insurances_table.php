@@ -18,13 +18,12 @@ class CreateInsurancesTable extends Migration
             $table->string('name', 75);
             $table->string('email_address_1', 100);
             $table->string('email_address_2', 100);
-            $table->string('contact_1', 50);
-            $table->string('contact_2', 50);
             $table->string('state', 45);
             $table->string('street', 45);
             $table->string('city', 45);
             $table->string('zip');
             $table->string('company', 75);
+            $table->json('contacts');
             $table->timestamps();
         });
     }

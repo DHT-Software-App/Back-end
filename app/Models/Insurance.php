@@ -9,4 +9,8 @@ class Insurance extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    protected $casts = [
+        'contacts' => 'array'
+    ];
 }
