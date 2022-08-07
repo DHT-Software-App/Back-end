@@ -50,7 +50,7 @@ Route::group([
     );
 
     Route::post(
-        '/verify/pin',
+        '   ',
         [RegisterController::class, 'verifyPin']
     );
 });
@@ -172,7 +172,7 @@ Route::group([
 // insurances
 Route::group([
     'middleware' => ['api'],
-    'prefix' => 'insurances'
+    'prefix' => 'insurance_companies'
 
 ], function ($router) {
     Route::get('/', [InsuranceController::class, 'index']);

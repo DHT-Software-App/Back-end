@@ -17,15 +17,16 @@ class AbilityMiddleware
      */
     public function handle(Request $request, Closure $next, $ability)
     {
+        // Get authenticated user's employee
         $employee = auth()->user()->employee;
 
-        if($employee->can($ability)) {
+        if ($employee->can($ability)) {
             return $next($request);
         }
-        
+
         return response()->json([
             'success' => false,
             'message' => "You can't complete this action."
-        ],Response::HTTP_FORBIDDEN);
+        ], Response::HTTP_FORBIDDEN);
     }
 }

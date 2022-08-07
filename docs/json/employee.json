@@ -1,0 +1,14 @@
+{
+    "firstname": "Gian Carlos",
+    "lastname": "Perez Michel",
+    "email_address": "adomini.edu@gmail.com",
+    "state": "Monseñor Nouel",
+    "street": "Calle Fani Pimentel No. 201",
+    "city": "Bonao",
+    "zip": 42000,
+    "contacts": [
+        "809-750-3556",
+        "809-432-12323",
+        "829-323-3442"
+    ]
+}
