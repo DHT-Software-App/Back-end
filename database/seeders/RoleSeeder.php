@@ -80,6 +80,13 @@ class RoleSeeder extends Seeder
             'title' => 'employees'
         ]);
 
+        // profile
+        $viewProfile = Bouncer::ability()->create([
+            'name' => 'view:profiles',
+            'title' => 'profiles'
+        ]);
+
+
         // customer
         $viewCustomer = Bouncer::ability()->create([
             'name' => 'view:customers',
@@ -197,6 +204,10 @@ class RoleSeeder extends Seeder
         Bouncer::allow($admin)->to($createTechnician);
         Bouncer::allow($admin)->to($updateTechnician);
         Bouncer::allow($admin)->to($deleteTechnician);
+
+        // profile
+        Bouncer::allow($manager)->to($viewProfile);
+        Bouncer::allow($admin)->to($viewProfile);
 
         // customer
         Bouncer::allow($manager)->to($viewCustomer);

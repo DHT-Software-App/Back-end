@@ -25,7 +25,7 @@ class CreateCustomersTable extends Migration
             $table->string('city', 45);
             $table->string('zip');
             $table->boolean('has_insured');
-            $table->json('contacts');
+            $table->json('contacts')->default(json_encode([]));
             $table->timestamps();
         });
     }

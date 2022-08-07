@@ -8,6 +8,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EstimateItemController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\InsuranceController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -120,6 +121,12 @@ Route::group([
         'prefix' => '{user}'
     ], function ($router) {
         Route::get('', [UserController::class, 'show']);
+
+
+        Route::group(['prefix' => 'profile/{profile}'], function ($router) {
+            Route::get('', [ProfileController::class, 'show']);
+            // Route::put('', [ProfileController::class, 'update']);
+        });
     });
 });
 

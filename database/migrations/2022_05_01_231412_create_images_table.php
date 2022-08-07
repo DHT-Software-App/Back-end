@@ -16,9 +16,11 @@ class CreateImagesTable extends Migration
         // Polymorphic Table
         Schema::create('images', function (Blueprint $table) {
             $table->string('url');
-            
+
             $table->unsignedInteger('imageable_id');
             $table->string('imageable_type');
+            $table->unsignedBigInteger('size');
+            $table->string('extension', 8);
 
             $table->primary(['imageable_id', 'imageable_type']);
 

@@ -1,16 +1,31 @@
-{
-    "firstname": "Michael",
-    "lastname": "Perez",
-    "insured_firstname": "Phineas",
-    "insured_lastname": "Lowels",
-    "email_address": "g.edu@gmail.com",
-    "contact_1": [
-        "8094232112",
-        "8094232112"
-    ],
-    "state": "New York",
-    "street": "SaintLawrence",
-    "city": "Bronx",
-    "zip": 32312,
-    "has_insured": true
-}
+[
+    {
+        "firstname": "Michael",
+        "lastname": "Perez",
+        "insured_firstname": "Phineas",
+        "insured_lastname": "Lowels",
+        "email_address": "g.edu@gmail.com",
+        "contacts": [
+            "8094232112",
+            "8094232112"
+        ],
+        "state": "New York",
+        "street": "SaintLawrence",
+        "city": "Bronx",
+        "zip": 32312,
+        "has_insured": true
+    },
+    {
+        "firstname": "Javier",
+        "lastname": "Martinez",
+        "insured_firstname": "Frank",
+        "insured_lastname": "Miller",
+        "email_address": "javier.martinez@gmail.com",
+        "street": "Pank Evil",
+        "city": "New York City",
+        "state": "New York",
+        "zip": 232321,
+        "has_insured": true,
+        "contacts": []
+    }
+]

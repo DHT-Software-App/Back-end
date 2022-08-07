@@ -22,7 +22,7 @@ class CreateEmployeesTable extends Migration
             $table->string('street', 45);
             $table->string('city', 45);
             $table->string('zip');
-            $table->json('contacts');
+            $table->json('contacts')->default(json_encode([]));
             $table->enum('status', ['active', 'desactive'])->default('desactive');
 
             $table->timestamps();

@@ -23,7 +23,7 @@ class CreateInsurancesTable extends Migration
             $table->string('city', 45);
             $table->string('zip');
             $table->string('company', 75);
-            $table->json('contacts');
+            $table->json('contacts')->default(json_encode([]));
             $table->timestamps();
         });
     }
