@@ -50,7 +50,7 @@ Route::group([
     );
 
     Route::post(
-        '   ',
+        '/verify/pin',
         [RegisterController::class, 'verifyPin']
     );
 });
