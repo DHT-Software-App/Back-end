@@ -213,6 +213,27 @@ class RoleSeeder extends Seeder
             'title' => 'jobs'
         ]);
 
+        // calendars
+        $viewCalendars = Bouncer::ability()->create([
+            'name' => 'view:calendars',
+            'title' => 'calendars'
+        ]);
+
+        $createCalendars = Bouncer::ability()->create([
+            'name' => 'create:calendars',
+            'title' => 'calendars'
+        ]);
+
+        $updateCalendars = Bouncer::ability()->create([
+            'name' => 'update:calendars',
+            'title' => 'calendars'
+        ]);
+
+        $deleteCalendars = Bouncer::ability()->create([
+            'name' => 'delete:calendars',
+            'title' => 'calendars'
+        ]);
+
 
         Bouncer::allow($manager)->to($viewAdmin);
         Bouncer::allow($manager)->to($viewEmployee);
@@ -295,5 +316,16 @@ class RoleSeeder extends Seeder
         Bouncer::allow($admin)->to($createJobs);
         Bouncer::allow($admin)->to($updateJobs);
         Bouncer::allow($admin)->to($deleteJobs);
+
+        // calendars
+        Bouncer::allow($manager)->to($viewCalendars);
+        Bouncer::allow($manager)->to($createCalendars);
+        Bouncer::allow($manager)->to($updateCalendars);
+        Bouncer::allow($manager)->to($deleteCalendars);
+
+        Bouncer::allow($admin)->to($viewCalendars);
+        Bouncer::allow($admin)->to($createCalendars);
+        Bouncer::allow($admin)->to($updateCalendars);
+        Bouncer::allow($admin)->to($deleteCalendars);
     }
 }
