@@ -125,7 +125,7 @@ Route::group([
 
         Route::group(['prefix' => 'profile/{profile}'], function ($router) {
             Route::get('', [ProfileController::class, 'show']);
-            // Route::put('', [ProfileController::class, 'update']);
+            Route::put('', [ProfileController::class, 'update']);
         });
     });
 });

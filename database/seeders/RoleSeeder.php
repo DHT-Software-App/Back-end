@@ -192,6 +192,27 @@ class RoleSeeder extends Seeder
             'title' => 'estimateitems'
         ]);
 
+        // jobs
+        $viewJobs = Bouncer::ability()->create([
+            'name' => 'view:jobs',
+            'title' => 'jobs'
+        ]);
+
+        $createJobs = Bouncer::ability()->create([
+            'name' => 'create:jobs',
+            'title' => 'jobs'
+        ]);
+
+        $updateJobs = Bouncer::ability()->create([
+            'name' => 'update:jobs',
+            'title' => 'jobs'
+        ]);
+
+        $deleteJobs = Bouncer::ability()->create([
+            'name' => 'delete:jobs',
+            'title' => 'jobs'
+        ]);
+
 
         Bouncer::allow($manager)->to($viewAdmin);
         Bouncer::allow($manager)->to($viewEmployee);
@@ -263,5 +284,16 @@ class RoleSeeder extends Seeder
         Bouncer::allow($admin)->to($createEstimateItem);
         Bouncer::allow($admin)->to($updateEstimateItem);
         Bouncer::allow($admin)->to($deleteEstimateItem);
+
+        // jobs
+        Bouncer::allow($manager)->to($viewJobs);
+        Bouncer::allow($manager)->to($createJobs);
+        Bouncer::allow($manager)->to($updateJobs);
+        Bouncer::allow($manager)->to($deleteJobs);
+
+        Bouncer::allow($admin)->to($viewJobs);
+        Bouncer::allow($admin)->to($createJobs);
+        Bouncer::allow($admin)->to($updateJobs);
+        Bouncer::allow($admin)->to($deleteJobs);
     }
 }

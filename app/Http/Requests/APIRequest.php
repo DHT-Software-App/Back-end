@@ -19,8 +19,9 @@ abstract class APIRequest extends FormRequest
     {
         return auth()->check();
     }
-   
-    protected function failedValidation(Validator $validator) {
+
+    protected function failedValidation(Validator $validator)
+    {
         $formatError = invalid_attribute_format($validator->errors());
         throw (new HttpResponseException(response()->json(new InvalidAttributeCollection($formatError), Response::HTTP_BAD_REQUEST)));
     }
@@ -32,7 +33,7 @@ abstract class APIRequest extends FormRequest
      */
     public function prepareForValidation()
     {
-        if($this->_method) {
+        if ($this->_method) {
             $this->request->remove('_method');
         }
     }

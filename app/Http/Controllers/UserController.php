@@ -11,20 +11,23 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth:api');
     }
 
-    public function index() {
+    public function index()
+    {
         $users = User::all();
 
         return response()->json(new UserCollection($users));
     }
 
-    public function show(Employee $employee, $user) {
+    public function show(Employee $employee, $user)
+    {
         $user = $employee->user->find($user);
 
-        if($user) {
+        if ($user) {
             return response()->json(new UserResource($user), Response::HTTP_OK);
         }
 

@@ -32,6 +32,8 @@ class ProfileController extends Controller
     {
         extract($request->validated());
 
+        $folder = 'profiles';
+
         if ($profile->user_id == $user->id) {
 
             if (auth()->user()->id == $user->id) {
