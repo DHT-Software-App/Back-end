@@ -8,6 +8,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EstimateItemController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\InsuranceController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RoleController;
@@ -220,5 +221,23 @@ Route::group([
         Route::get('/', [EstimateItemController::class, 'show']);
         Route::put('/', [EstimateItemController::class, 'update']);
         Route::delete('/', [EstimateItemController::class, 'delete']);
+    });
+});
+
+
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'jobs'
+
+], function ($router) {
+    Route::get('/', [JobController::class, 'index']);
+
+    Route::post('/', [JobController::class, 'store']);
+
+    Route::group(['prefix' => '{job}'], function ($router) {
+
+        Route::get('/', [JobController::class, 'show']);
+        Route::put('/', [JobController::class, 'update']);
+        Route::delete('/', [JobController::class, 'delete']);
     });
 });

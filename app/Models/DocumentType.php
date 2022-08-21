@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class DocumentType extends Model
 {
     use HasFactory;
+    protected $table = 'document_types';
+    public $timestamps = true;
 
     protected $guarded = [];
+
+    protected $fillable = array( 'name', 'description');
+    protected $visible = array( 'id', 'name', 'description');
 }
