@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AbilityController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
@@ -239,5 +240,23 @@ Route::group([
         Route::get('/', [JobController::class, 'show']);
         Route::put('/', [JobController::class, 'update']);
         Route::delete('/', [JobController::class, 'delete']);
+    });
+});
+
+
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'calendar'
+
+], function ($router) {
+    Route::get('/', [CalendarController::class, 'index']);
+
+    Route::post('/', [CalendarController::class, 'store']);
+
+    Route::group(['prefix' => '{calendar}'], function ($router) {
+
+        Route::get('/', [CalendarController::class, 'show']);
+        Route::put('/', [CalendarController::class, 'update']);
+        Route::delete('/', [CalendarController::class, 'delete']);
     });
 });
