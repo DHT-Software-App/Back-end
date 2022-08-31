@@ -260,3 +260,21 @@ Route::group([
         Route::delete('/', [CalendarController::class, 'delete']);
     });
 });
+
+
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'document'
+
+], function ($router) {
+    Route::get('/', [DocumentController::class, 'index']);
+
+    Route::post('/', [DocumentController::class, 'store']);
+
+    Route::group(['prefix' => '{document}'], function ($router) {
+
+        Route::get('/', [DocumentController::class, 'show']);
+        Route::put('/', [DocumentController::class, 'update']);
+        Route::delete('/', [DocumentController::class, 'delete']);
+    });
+});
