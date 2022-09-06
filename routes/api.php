@@ -278,3 +278,20 @@ Route::group([
         Route::delete('/', [DocumentController::class, 'delete']);
     });
 });
+
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'documentType'
+
+], function ($router) {
+    Route::get('/', [DocumentTypeController::class, 'index']);
+
+    Route::post('/', [DocumentTypeController::class, 'store']);
+
+    Route::group(['prefix' => '{documentType}'], function ($router) {
+
+        Route::get('/', [DocumentTypeController::class, 'show']);
+        Route::put('/', [DocumentTypeController::class, 'update']);
+        Route::delete('/', [DocumentTypeController::class, 'delete']);
+    });
+});
