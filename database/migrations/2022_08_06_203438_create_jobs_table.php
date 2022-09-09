@@ -14,31 +14,26 @@ class CreateJobsTable extends Migration
     public function up()
     {
         Schema::create('jobs', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('policy_number');
-            $table->string('claim_number');
-            $table->string('notes');
+            $table->id();
+            $table->string('policy_number', 75);
+            $table->string('claim_number', 75);
+            $table->longText('notes');
             $table->dateTime('date_of_loss');
-            $table->string('type_of_loss');
-            $table->string('status')->default('new');
-            $table->string('state', 4000);
-            $table->string('street', 4000);
-            $table->string('city', 4000);
-            $table->integer('zip', 4000);
-            $table->integer('employee_id')->unsigned();
-            $table->integer('customer_id')->unsigned();
-            $table->integer('client_id')->unsigned();
-            $table->integer('work_type_id')->unsigned();
-            $table->integer('insurance_id')->unsigned();
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
-            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            $table->foreign('work_type_id')->references('id')->on('work_types')->onDelete('cascade');
-            $table->foreign('insurance_id')->references('id')->on('work_types')->onDelete('cascade');
+            $table->string('type_of_loss', 75);
+            $table->enum('status', ['new', 'on going', 'completed'])->default('new');
+            $table->string('state', 45);
+            $table->string('street', 45);
+            $table->string('city', 45);
+            $table->string('zip');
+            $table->string('company', 75);
+
+            $table->foreignId('client_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('customer_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('work_type_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('insurance_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+
             $table->timestamps();
             $table->softDeletes();
-
-
         });
     }
 

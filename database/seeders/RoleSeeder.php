@@ -234,7 +234,50 @@ class RoleSeeder extends Seeder
             'title' => 'calendars'
         ]);
 
+        // documents
+        $viewDocuments = Bouncer::ability()->create([
+            'name' => 'view:documents',
+            'title' => 'documents'
+        ]);
 
+        $createDocuments = Bouncer::ability()->create([
+            'name' => 'create:documents',
+            'title' => 'documents'
+        ]);
+
+        $updateDocuments = Bouncer::ability()->create([
+            'name' => 'update:documents',
+            'title' => 'documents'
+        ]);
+
+        $deleteDocuments = Bouncer::ability()->create([
+            'name' => 'delete:documents',
+            'title' => 'documents'
+        ]);
+
+        // document types
+        $viewDocumentTypes = Bouncer::ability()->create([
+            'name' => 'view:documenttypes',
+            'title' => 'documenttypes'
+        ]);
+
+        $createDocumentTypes = Bouncer::ability()->create([
+            'name' => 'create:documenttypes',
+            'title' => 'documenttypes'
+        ]);
+
+        $updateDocumentTypes = Bouncer::ability()->create([
+            'name' => 'update:documenttypes',
+            'title' => 'documenttypes'
+        ]);
+
+        $deleteDocumentTypes = Bouncer::ability()->create([
+            'name' => 'delete:documenttypes',
+            'title' => 'documenttypes'
+        ]);
+
+
+        // employee
         Bouncer::allow($manager)->to($viewAdmin);
         Bouncer::allow($manager)->to($viewEmployee);
         Bouncer::allow($manager)->to($createAdmin);
@@ -327,5 +370,27 @@ class RoleSeeder extends Seeder
         Bouncer::allow($admin)->to($createCalendars);
         Bouncer::allow($admin)->to($updateCalendars);
         Bouncer::allow($admin)->to($deleteCalendars);
+
+        // documents
+        Bouncer::allow($manager)->to($viewDocuments);
+        Bouncer::allow($manager)->to($createDocuments);
+        Bouncer::allow($manager)->to($updateDocuments);
+        Bouncer::allow($manager)->to($deleteDocuments);
+
+        Bouncer::allow($admin)->to($viewDocuments);
+        Bouncer::allow($admin)->to($createDocuments);
+        Bouncer::allow($admin)->to($updateDocuments);
+        Bouncer::allow($admin)->to($deleteDocuments);
+
+        // document types
+        Bouncer::allow($manager)->to($viewDocumentTypes);
+        Bouncer::allow($manager)->to($createDocumentTypes);
+        Bouncer::allow($manager)->to($updateDocumentTypes);
+        Bouncer::allow($manager)->to($deleteDocumentTypes);
+
+        Bouncer::allow($admin)->to($viewDocumentTypes);
+        Bouncer::allow($admin)->to($createDocumentTypes);
+        Bouncer::allow($admin)->to($updateDocumentTypes);
+        Bouncer::allow($admin)->to($deleteDocumentTypes);
     }
 }

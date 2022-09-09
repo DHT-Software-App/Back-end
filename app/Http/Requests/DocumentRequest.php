@@ -15,9 +15,9 @@ class DocumentRequest extends APIRequest
     {
         return [
             'description' => 'required|max:3000|regex:/^[a-z ,.\'-]+$/i',
-            'url' => 'required|max:3000',
-            'job_id' => 'required', 'int',
-            'document_type_id' => 'required', 'int'
+            'url' => 'nullable|file|max:5120|mimes:jpeg,png,jpg,pdf',
+            'job_id' => ['required', 'exists:jobs,id'],
+            'document_type_id' => ['required', 'exists:document_types,id']
         ];
     }
 }

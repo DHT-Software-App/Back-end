@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDocumentTypesTable extends Migration
+class CreateDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateDocumentTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('document_types', function (Blueprint $table) {
+        Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50)->unique();
+            $table->longText('description');
+            $table->foreignId('job_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('document_type_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +30,6 @@ class CreateDocumentTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('document_types');
+        Schema::dropIfExists('jobs');
     }
 }

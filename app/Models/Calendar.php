@@ -7,23 +7,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Calendar extends Model
 {
-    protected $table = 'calendar';
+    protected $table = 'calendars';
     public $timestamps = true;
 
     use SoftDeletes;
 
-    protected $fillable = array( 'start_date', 'end_date', 'notes', 'job_id','employee_id');
-    protected $visible = array( 'id', 'start_date', 'end_date', 'notes', 'job_id','employee_id');
+    protected $fillable = array('start_date', 'end_date', 'notes', 'job_id', 'employee_id');
+    protected $visible = array('id', 'start_date', 'end_date', 'notes', 'job_id', 'employee_id');
 
 
-    public function Job()
+    public function job()
     {
         return $this->belongsTo(Job::class, 'job_id');
     }
 
-    public function Employee()
+    public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id');
     }
-
 }

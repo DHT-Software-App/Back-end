@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\DocumentRequest;
+use App\Http\Requests\DocumentTypeRequest;
 use App\Http\Resources\DocumentTypeCollection;
-use App\Http\Resources\DocumentResource;
+use App\Http\Resources\DocumentTypeResource;
 use App\Models\DocumentType;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,7 @@ class DocumentTypeController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => []]);
-        $this->middleware('able:view:documentType');
+        $this->middleware('able:view:documenttypes');
     }
 
     public function index()

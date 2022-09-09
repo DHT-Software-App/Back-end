@@ -17,4 +17,9 @@ class WorkType extends Model
     {
         return $this->hasMany(EstimateItem::class);
     }
+
+    public function jobs(): HasMany
+    {
+        return $this->hasMany(Job::class);
+    }
 }

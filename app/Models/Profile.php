@@ -11,7 +11,7 @@ class Profile extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'photo'];
+    protected $fillable = ['user_id', 'url'];
 
     // One-to-one polymorphic relation
     public function image(): MorphOne

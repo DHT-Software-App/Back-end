@@ -15,10 +15,10 @@ class CalendarRequest extends APIRequest
     {
         return [
             'start_date' => 'required|date_format:Y-m-d H:i:s',
-            'end_date' => 'required|date_format:Y-m-d H:i:s',
-            'notes' => 'required|max:3500|regex:/^[a-z ,.\'-]+$/i',
-            'job_id' => 'required', 'int',
-            'employee_id' => 'required', 'int'
+            'end_date' => 'required|date_format:Y-m-d H:i:s|after:start_date',
+            'notes' => 'required|max:255|regex:/^[a-z ,.\'-]+$/i',
+            'employee_id' => ['required', 'exists:employees,id'],
+            'job_id' => ['required', 'exists:jobs,id'],
         ];
     }
 }

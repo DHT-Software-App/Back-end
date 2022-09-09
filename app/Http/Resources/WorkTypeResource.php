@@ -18,11 +18,10 @@ class WorkTypeResource extends JsonResource
 
         return  [
             "data" => [
-                "type" => "employees",
+                "type" => "work_types",
                 "id" => (string) $this->id,
                 "attributes" => $this->only(
                     'name',
-                    'description',
                     'created_at',
                     'updated_at'
                 ),

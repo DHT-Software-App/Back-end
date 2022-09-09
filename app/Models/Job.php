@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Job extends Model
@@ -12,34 +14,37 @@ class Job extends Model
 
     use SoftDeletes;
 
-    protected $fillable = array( 'claim_number', 'notes', 'date_of_loss', 'type_of_loss','status', 'state', 'street', 'city', 'zip', 'company', 'employee_id', 'customer_id', 'client_id', 'work_type_id', 'insurance_id');
-    protected $visible = array( 'id', 'claim_number', 'notes', 'date_of_loss', 'type_of_loss','status', 'state', 'street', 'city', 'zip', 'company', 'employee_id', 'customer_id', 'client_id', 'work_type_id', 'insurance_id');
+    protected $fillable = array('policy_number', 'claim_number', 'notes', 'date_of_loss', 'type_of_loss', 'status', 'state', 'street', 'city', 'zip', 'company', 'customer_id', 'client_id', 'work_type_id', 'insurance_id');
+    protected $visible = array('id', 'policy_number', 'claim_number', 'notes', 'date_of_loss', 'type_of_loss', 'status', 'state', 'street', 'city', 'zip', 'company', 'customer_id', 'client_id', 'work_type_id', 'insurance_id');
 
 
-    public function Employee()
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(Employee::class, 'employee_id');
+        return $this->belongsTo(Customer::class);
     }
 
-    public function Customer()
+    public function client(): BelongsTo
     {
-        return $this->belongsTo(Customer::class, 'customer_id');
+        return $this->belongsTo(Client::class);
     }
 
-    public function Client()
+    public function workType(): BelongsTo
     {
-        return $this->belongsTo(Client::class, 'client_id');
+        return $this->belongsTo(WorkType::class);
     }
 
-    public function WorkType()
+    public function insurance(): BelongsTo
     {
-        return $this->belongsTo(WorkType::class, 'work_type_id');
+        return $this->belongsTo(Insurance::class);
     }
 
-    public function Insurance()
+    public function calendar(): HasOne
     {
-        return $this->belongsTo(Insurance::class, 'insurance_id');
+        return $this->hasOne(Calendar::class);
     }
 
-
+    public function document(): HasOne
+    {
+        return $this->hasOne(Document::class);
+    }
 }

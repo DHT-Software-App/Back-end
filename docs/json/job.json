@@ -1,0 +1,17 @@
+{
+    "policy_number": "23231",
+    "claim_number": "32112",
+    "notes": "This is a test notes",
+    "street": "142 Raymon St",
+    "date_of_loss": "2022-09-07 12:18:32",
+    "type_of_loss": "This is a test type of loss",
+    "state": "NY",
+    "city": "NYC",
+    "zip": "23232",
+    "employee_id": 1212229,
+    "company": "MeltoCruz",
+    "client_id": 1,
+    "customer_id": 1,
+    "work_type_id": 1,
+    "insurance_id": 1
+}

@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EstimateItemController;
 use App\Http\Controllers\ForgotPasswordController;
@@ -197,13 +199,9 @@ Route::group([
 ], function ($router) {
     Route::get('/', [WorkTypeController::class, 'index']);
 
-    Route::post('/', [WorkTypeController::class, 'store']);
-
     Route::group(['prefix' => '{workType}'], function ($router) {
 
         Route::get('/', [WorkTypeController::class, 'show']);
-        Route::put('/', [WorkTypeController::class, 'update']);
-        Route::delete('/', [WorkTypeController::class, 'delete']);
     });
 });
 
@@ -225,6 +223,7 @@ Route::group([
     });
 });
 
+// Jobs
 
 Route::group([
     'middleware' => ['api'],
@@ -243,10 +242,10 @@ Route::group([
     });
 });
 
-
+// Calendars
 Route::group([
     'middleware' => ['api'],
-    'prefix' => 'calendar'
+    'prefix' => 'calendars'
 
 ], function ($router) {
     Route::get('/', [CalendarController::class, 'index']);
@@ -261,10 +260,10 @@ Route::group([
     });
 });
 
-
+// Documents
 Route::group([
     'middleware' => ['api'],
-    'prefix' => 'document'
+    'prefix' => 'documents'
 
 ], function ($router) {
     Route::get('/', [DocumentController::class, 'index']);
@@ -279,19 +278,15 @@ Route::group([
     });
 });
 
+// Document Types
 Route::group([
     'middleware' => ['api'],
-    'prefix' => 'documentType'
+    'prefix' => 'document_types'
 
 ], function ($router) {
     Route::get('/', [DocumentTypeController::class, 'index']);
 
-    Route::post('/', [DocumentTypeController::class, 'store']);
-
     Route::group(['prefix' => '{documentType}'], function ($router) {
-
         Route::get('/', [DocumentTypeController::class, 'show']);
-        Route::put('/', [DocumentTypeController::class, 'update']);
-        Route::delete('/', [DocumentTypeController::class, 'delete']);
     });
 });

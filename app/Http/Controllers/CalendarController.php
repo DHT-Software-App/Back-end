@@ -15,7 +15,7 @@ class CalendarController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => []]);
-        $this->middleware('able:view:calendar');
+        $this->middleware('able:view:calendars');
     }
 
     public function index()

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJobsTable extends Migration
+class CreateCalendarsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,15 @@ class CreateJobsTable extends Migration
      */
     public function up()
     {
-        Schema::create('calendar', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('calendars', function (Blueprint $table) {
+            $table->id();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->string('notes', 4000);
-            $table->integer('employee_id')->unsigned();
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
-            $table->integer('job_id')->unsigned();
-            $table->foreign('job_id')->references('id')->on('job')->onDelete('cascade');
+            $table->longText('notes');
+            $table->foreignId('employee_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('job_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
-
-
         });
     }
 

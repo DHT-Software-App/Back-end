@@ -24,9 +24,9 @@ class JobController extends Controller
         return response()->json(new JobCollection($jobs), Response::HTTP_OK);
     }
 
-    public function show(Job $jobs)
+    public function show(Job $job)
     {
-        return response()->json(new JobResource($jobs), Response::HTTP_OK);
+        return response()->json(new JobResource($job), Response::HTTP_OK);
     }
 
     public function store(JobRequest $request)

@@ -21,7 +21,6 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-
             $table->foreignId('employee_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
         });
     }

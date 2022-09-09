@@ -7,15 +7,17 @@ use App\Http\Requests\DocumentRequest;
 use App\Http\Resources\DocumentCollection;
 use App\Http\Resources\DocumentResource;
 use App\Models\Document;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
+    private $folder = 'documents';
+
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => []]);
-        $this->middleware('able:view:document');
+        $this->middleware('able:view:documents');
     }
 
     public function index()
@@ -34,6 +36,12 @@ class DocumentController extends Controller
     {
         $document = Document::create($request->validated());
 
+        if ($document) {
+            if ($image = $request->url) {
+                $this->saveRelatedImage($this->folder, $image, $document);
+            }
+        }
+
         return response()->json(new DocumentResource($document), Response::HTTP_CREATED);
     }
 
@@ -41,6 +49,10 @@ class DocumentController extends Controller
     public function update(DocumentRequest $request, Document $document)
     {
         if ($document->update($request->validated())) {
+            if ($image = $request->url) {
+                $this->saveRelatedImage($this->folder, $image, $document);
+            }
+
             return response()->json(new DocumentResource($document), Response::HTTP_OK);
         }
     }
@@ -54,5 +66,18 @@ class DocumentController extends Controller
             'message' => 'Document deleted successfully',
             'code' => 'DELETED'
         ], Response::HTTP_NO_CONTENT);
+    }
+
+    public function saveRelatedImage($folder, $image, $owner_model)
+    {
+        $path = Storage::disk('s3')->put($folder, $image, 'public');
+
+        $owner_model->image()->updateOrCreate([
+            'imageable_id' => $owner_model->id
+        ], [
+            'url' => $path,
+            'size' => $image->getSize(),
+            'extension' => $image->extension()
+        ]);
     }
 }

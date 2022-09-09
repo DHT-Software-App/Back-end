@@ -15,7 +15,6 @@ class Employee extends Model
     use HasRolesAndAbilities;
     use Authorizable;
 
-
     protected $guarded = [];
 
     protected $casts = [
@@ -30,5 +29,10 @@ class Employee extends Model
     public function userProfile(): HasOneThrough
     {
         return $this->hasOneThrough(Profile::class, User::class);
+    }
+
+    public function calendar(): HasOne
+    {
+        return $this->hasOne(calendar::class);
     }
 }
