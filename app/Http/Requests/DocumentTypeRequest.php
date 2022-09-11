@@ -14,7 +14,7 @@ class DocumentTypeRequest extends APIRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:50|regex:/^[a-z ,.\'-]+$/i',
+            'name' => 'required|max:50',
             'description' => 'required|max:3000'
         ];
     }

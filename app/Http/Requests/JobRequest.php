@@ -14,19 +14,21 @@ class JobRequest extends APIRequest
      */
     public function rules()
     {
+        date_default_timezone_get();
+
         return [
             'policy_number' => 'required|string|max:75',
             'claim_number' => 'required|string|max:75',
-            'notes' => 'required|max:255|regex:/^[a-z ,.\'-]+$/i',
+            'notes' => 'required|max:255',
             'date_of_loss' => 'required|date_format:Y-m-d H:i:s',
-            'type_of_loss' => 'required|max:75|regex:/^[a-z ,.\'-]+$/i',
+            'type_of_loss' => 'required|max:75',
             'status' => [
                 Rule::in(['new', 'on going', 'completed']),
             ],
             'state' => 'required|max:45',
             'street' => 'required|max:45',
             'city' => 'required|max:45',
-            'zip' => 'required|string',
+            'zip' => 'required|numeric',
             'company' => 'required|max:75',
             'customer_id' => ['required', 'exists:customers,id'],
             'client_id' => ['required', 'exists:clients,id'],
