@@ -17,24 +17,6 @@ class Customer extends Model
         'contacts' => 'array',
     ];
 
-    //-------------------
-    // Accessors
-    //-------------------
-
-    protected function insuredFirstname(): Attribute
-    {
-        return Attribute::get(fn ($value) => $value ?? '');
-    }
-
-    protected function insuredLastname(): Attribute
-    {
-        return Attribute::get(fn ($value) => $value ?? '');
-    }
-
-    //-------------------
-    // Relations
-    //-------------------
-
     public function jobs(): HasMany
     {
         return $this->hasMany(Job::class);

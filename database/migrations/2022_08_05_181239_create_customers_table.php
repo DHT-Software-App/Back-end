@@ -18,8 +18,8 @@ class CreateCustomersTable extends Migration
             $table->id();
             $table->string('firstname', 50);
             $table->string('lastname', 50);
-            $table->string('insured_firstname', 50)->nullable();
-            $table->string('insured_lastname', 50)->nullable();
+            $table->string('insured_firstname', 50)->default('');
+            $table->string('insured_lastname', 50)->default('');
             $table->string('email_address', 100);
             $table->string('state', 45);
             $table->string('street', 45);

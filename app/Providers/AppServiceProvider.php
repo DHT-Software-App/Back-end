@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Customer;
 use App\Models\Employee;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use App\Models\User;
+use App\Observers\CustomerObserver;
 use App\Observers\EmployeeObserver;
 use App\Observers\UserObserver;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -35,5 +37,6 @@ class AppServiceProvider extends ServiceProvider
         // observers
         User::observe(UserObserver::class);
         Employee::observe(EmployeeObserver::class);
+        Customer::observe(CustomerObserver::class);
     }
 }

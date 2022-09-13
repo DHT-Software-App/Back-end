@@ -29,21 +29,6 @@ class CustomerRequest extends APIRequest
         ];
     }
 
-    /**
-     * Get the validated data from the request.
-     *
-     * @return array
-     */
-    public function validated()
-    {
-
-        if (request()->has_insured) {
-            return parent::validated();
-        }
-
-        return request()->except(['insured_firstname', 'insured_lastname']);
-    }
-
 
     /**
      * @return array|string[]
