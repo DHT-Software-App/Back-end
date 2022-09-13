@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -22,7 +23,7 @@ class CreateEmployeesTable extends Migration
             $table->string('street', 45);
             $table->string('city', 45);
             $table->string('zip');
-            $table->json('contacts')->default(json_encode([]));
+            $table->json('contacts')->default(new Expression('(JSON_ARRAY())'));
             $table->enum('status', ['active', 'desactive'])->default('desactive');
 
             $table->timestamps();

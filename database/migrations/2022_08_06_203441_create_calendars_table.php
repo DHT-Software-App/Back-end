@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use  Illuminate\Database\Query\Expression;
 
 class CreateCalendarsTable extends Migration
 {
@@ -19,7 +20,7 @@ class CreateCalendarsTable extends Migration
             $table->dateTime('end_date');
             $table->text('address');
             $table->longText('notes');
-            $table->json('contacts')->default(json_encode([]));;
+            $table->json('contacts')->default(new Expression('(JSON_ARRAY())'));
             $table->foreignId('employee_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('job_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();

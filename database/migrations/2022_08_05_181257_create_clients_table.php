@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -24,7 +25,7 @@ class CreateClientsTable extends Migration
             $table->string('city', 45);
             $table->string('zip');
             $table->string('company', 75);
-            $table->json('contacts')->default(json_encode([]));;
+            $table->json('contacts')->default(new Expression('(JSON_ARRAY())'));
             $table->timestamps();
         });
     }
