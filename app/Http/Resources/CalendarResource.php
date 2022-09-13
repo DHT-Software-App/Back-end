@@ -24,6 +24,8 @@ class CalendarResource extends JsonResource
                     'start_date',
                     'end_date',
                     'notes',
+                    'address',
+                    'contacts',
                     'created_at',
                     'updated_at'
                 ),

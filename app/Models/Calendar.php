@@ -12,9 +12,12 @@ class Calendar extends Model
 
     use SoftDeletes;
 
-    protected $fillable = array('start_date', 'end_date', 'notes', 'job_id', 'employee_id');
-    protected $visible = array('id', 'start_date', 'end_date', 'notes', 'job_id', 'employee_id');
+    protected $fillable = array('start_date', 'end_date', 'contacts', 'address', 'notes', 'job_id', 'employee_id');
+    protected $visible = array('id', 'start_date', 'end_date', 'contacts', 'address', 'notes', 'job_id', 'employee_id');
 
+    protected $casts = [
+        'contacts' => 'array'
+    ];
 
     public function job()
     {

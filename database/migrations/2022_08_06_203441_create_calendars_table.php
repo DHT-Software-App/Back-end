@@ -17,7 +17,9 @@ class CreateCalendarsTable extends Migration
             $table->id();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
+            $table->text('address');
             $table->longText('notes');
+            $table->json('contacts')->default(json_encode([]));;
             $table->foreignId('employee_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('job_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
