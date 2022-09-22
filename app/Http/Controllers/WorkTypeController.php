@@ -18,7 +18,7 @@ class WorkTypeController extends Controller
 
     public function index()
     {
-        $workTypes = WorkType::all();
+        $workTypes = WorkType::paginate(15);
 
         return response()->json(new WorkTypeCollection($workTypes), Response::HTTP_OK);
     }

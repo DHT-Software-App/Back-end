@@ -19,7 +19,7 @@ class InsuranceController extends Controller
 
     public function index()
     {
-        $insurances = Insurance::all();
+        $insurances = Insurance::paginate(15);
 
         return response()->json(new InsuranceCollection($insurances), Response::HTTP_OK);
     }

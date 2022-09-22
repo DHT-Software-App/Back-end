@@ -20,7 +20,7 @@ class CalendarController extends Controller
 
     public function index()
     {
-        $calendar = Calendar::all();
+        $calendar = Calendar::paginate(15);
 
         return response()->json(new CalendarCollection($calendar), Response::HTTP_OK);
     }

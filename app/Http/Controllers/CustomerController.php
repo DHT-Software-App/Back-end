@@ -18,7 +18,7 @@ class CustomerController extends Controller
 
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::paginate(15);
 
         return response()->json(new CustomerCollection($customers), Response::HTTP_OK);
     }

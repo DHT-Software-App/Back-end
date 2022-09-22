@@ -18,7 +18,7 @@ class EstimateItemController extends Controller
 
     public function index()
     {
-        $estimateItems = EstimateItem::all();
+        $estimateItems = EstimateItem::paginate(15);
 
         return response()->json(new EstimateItemCollection($estimateItems), Response::HTTP_OK);
     }

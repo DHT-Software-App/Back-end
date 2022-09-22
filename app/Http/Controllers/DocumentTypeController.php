@@ -20,7 +20,7 @@ class DocumentTypeController extends Controller
 
     public function index()
     {
-        $document = DocumentType::all();
+        $document = DocumentType::paginate(15);
 
         return response()->json(new DocumentTypeCollection($document), Response::HTTP_OK);
     }

@@ -22,7 +22,7 @@ class DocumentController extends Controller
 
     public function index()
     {
-        $document = Document::all();
+        $document = Document::paginate(15);
 
         return response()->json(new DocumentCollection($document), Response::HTTP_OK);
     }

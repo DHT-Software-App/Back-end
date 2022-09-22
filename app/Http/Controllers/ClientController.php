@@ -19,7 +19,7 @@ class ClientController extends Controller
 
     public function index()
     {
-        $clients = Client::all();
+        $clients = Client::paginate(15);
 
         return response()->json(new ClientCollection($clients), Response::HTTP_OK);
     }

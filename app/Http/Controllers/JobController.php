@@ -19,7 +19,7 @@ class JobController extends Controller
 
     public function index()
     {
-        $jobs = Job::all();
+        $jobs = Job::paginate(15);
 
         return response()->json(new JobCollection($jobs), Response::HTTP_OK);
     }
