@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Requests\DocumentTypeRequest;
 use App\Http\Resources\DocumentTypeCollection;
 use App\Http\Resources\DocumentTypeResource;
+use App\Models\Document;
 use App\Models\DocumentType;
-use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
 class DocumentTypeController extends Controller
@@ -20,9 +20,15 @@ class DocumentTypeController extends Controller
 
     public function index()
     {
-        $document = DocumentType::paginate(15);
+        $fields = \Schema::getColumnListing('document_types');
 
-        return response()->json(new DocumentTypeCollection($document), Response::HTTP_OK);
+        $document_types = QueryBuilder::for(DocumentType::class)
+            ->allowedFilters($fields)
+            ->allowedSorts($fields)
+            ->paginate(15)
+            ->appends(request()->query());
+
+        return new DocumentTypeCollection($document_types);
     }
 
     public function show(DocumentType $documentType)

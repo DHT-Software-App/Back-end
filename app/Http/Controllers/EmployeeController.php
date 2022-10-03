@@ -7,6 +7,7 @@ use App\Http\Resources\EmployeeCollection;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
 use Symfony\Component\HttpFoundation\Response;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class EmployeeController extends Controller
 {
@@ -28,10 +29,17 @@ class EmployeeController extends Controller
             }
         }
 
-        // get all employees with specified roles.
-        $employees = Employee::whereIs(...$str_roles)->get();
 
-        return response()->json(new EmployeeCollection($employees), Response::HTTP_OK);
+        $fields = \Schema::getColumnListing('employees');
+
+        // whereIs: get all employees with specified roles.
+        $employees = QueryBuilder::for(Employee::whereIs(...$str_roles))
+            ->allowedFilters($fields)
+            ->allowedSorts($fields)
+            ->paginate(15)
+            ->appends(request()->query());
+
+        return new EmployeeCollection($employees);
     }
 
     public function show(Employee $employee)

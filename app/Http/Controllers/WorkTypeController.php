@@ -7,6 +7,7 @@ use App\Http\Resources\WorkTypeCollection;
 use App\Http\Resources\WorkTypeResource;
 use App\Models\WorkType;
 use Symfony\Component\HttpFoundation\Response;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class WorkTypeController extends Controller
 {
@@ -18,9 +19,16 @@ class WorkTypeController extends Controller
 
     public function index()
     {
-        $workTypes = WorkType::paginate(15);
+        $fields = \Schema::getColumnListing('work_types');
 
-        return response()->json(new WorkTypeCollection($workTypes), Response::HTTP_OK);
+        $workTypes = QueryBuilder::for(WorkType::class)
+            ->allowedFilters($fields)
+            ->allowedSorts($fields)
+            ->paginate(15)
+            ->appends(request()->query());
+
+
+        return new WorkTypeCollection($workTypes);
     }
 
     public function show(WorkType $workType)

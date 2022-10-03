@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Requests\DocumentRequest;
 use App\Http\Resources\DocumentCollection;
 use App\Http\Resources\DocumentResource;
 use App\Models\Document;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Storage;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class DocumentController extends Controller
 {
@@ -22,9 +22,15 @@ class DocumentController extends Controller
 
     public function index()
     {
-        $document = Document::paginate(15);
+        $fields = \Schema::getColumnListing('documents');
 
-        return response()->json(new DocumentCollection($document), Response::HTTP_OK);
+        $documents = QueryBuilder::for(Document::class)
+            ->allowedFilters($fields)
+            ->allowedSorts($fields)
+            ->paginate(15)
+            ->appends(request()->query());
+
+        return new DocumentCollection($documents);
     }
 
     public function show(Document $document)

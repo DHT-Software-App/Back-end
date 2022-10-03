@@ -7,6 +7,7 @@ use App\Http\Resources\EstimateItemCollection;
 use App\Http\Resources\EstimateItemResource;
 use App\Models\EstimateItem;
 use Symfony\Component\HttpFoundation\Response;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class EstimateItemController extends Controller
 {
@@ -18,9 +19,15 @@ class EstimateItemController extends Controller
 
     public function index()
     {
-        $estimateItems = EstimateItem::paginate(15);
+        $fields = \Schema::getColumnListing('estimate_items');
 
-        return response()->json(new EstimateItemCollection($estimateItems), Response::HTTP_OK);
+        $estimateItems = QueryBuilder::for(EstimateItem::class)
+            ->allowedFilters($fields)
+            ->allowedSorts($fields)
+            ->paginate(15)
+            ->appends(request()->query());
+
+        return new EstimateItemCollection($estimateItems);
     }
 
     public function show(EstimateItem $estimateItem)

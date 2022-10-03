@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClientRequest;
 use App\Http\Resources\ClientCollection;
 use App\Http\Resources\ClientResource;
-use Illuminate\Http\Request;
 use App\Models\Client;
 use Symfony\Component\HttpFoundation\Response;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ClientController extends Controller
 {
@@ -19,9 +19,15 @@ class ClientController extends Controller
 
     public function index()
     {
-        $clients = Client::paginate(15);
+        $fields = \Schema::getColumnListing('clients');
 
-        return response()->json(new ClientCollection($clients), Response::HTTP_OK);
+        $clients = QueryBuilder::for(Client::class)
+            ->allowedFilters($fields)
+            ->allowedSorts($fields)
+            ->paginate(15)
+            ->appends(request()->query());
+
+        return new ClientCollection($clients);
     }
 
     public function show(Client $client)

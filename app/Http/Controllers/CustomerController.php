@@ -7,6 +7,7 @@ use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use Symfony\Component\HttpFoundation\Response;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CustomerController extends Controller
 {
@@ -18,9 +19,15 @@ class CustomerController extends Controller
 
     public function index()
     {
-        $customers = Customer::paginate(15);
+        $fields = \Schema::getColumnListing('customers');
 
-        return response()->json(new CustomerCollection($customers), Response::HTTP_OK);
+        $customers = QueryBuilder::for(Customer::class)
+            ->allowedFilters($fields)
+            ->allowedSorts($fields)
+            ->paginate(15)
+            ->appends(request()->query());
+
+        return new CustomerCollection($customers);
     }
 
     public function show(Customer $customer)

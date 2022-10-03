@@ -6,7 +6,7 @@ use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\Employee;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -18,9 +18,15 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::paginate(15);
+        $fields = \Schema::getColumnListing('users');
 
-        return response()->json(new UserCollection($users));
+        $users = QueryBuilder::for(Insurance::class)
+            ->allowedFilters($fields)
+            ->allowedSorts($fields)
+            ->paginate(15)
+            ->appends(request()->query());
+
+        return new UserCollection($users);
     }
 
     public function show(Employee $employee, $user)

@@ -6,8 +6,7 @@ use App\Http\Requests\CalendarRequest;
 use App\Http\Resources\CalendarResource;
 use App\Http\Resources\CalendarCollection;
 use App\Models\Calendar;
-use App\Models\Job;
-use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
 class CalendarController extends Controller
@@ -20,9 +19,15 @@ class CalendarController extends Controller
 
     public function index()
     {
-        $calendar = Calendar::paginate(15);
+        $fields = \Schema::getColumnListing('calendars');
 
-        return response()->json(new CalendarCollection($calendar), Response::HTTP_OK);
+        $calendars = QueryBuilder::for(Calendar::class)
+            ->allowedFilters($fields)
+            ->allowedSorts($fields)
+            ->paginate(15)
+            ->appends(request()->query());
+
+        return new CalendarCollection($calendars);
     }
 
     public function show(Calendar $calendar)

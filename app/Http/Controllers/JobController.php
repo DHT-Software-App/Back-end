@@ -6,8 +6,8 @@ use App\Http\Requests\JobRequest;
 use App\Http\Resources\JobResource;
 use App\Http\Resources\JobCollection;
 use App\Models\Job;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class JobController extends Controller
 {
@@ -19,9 +19,15 @@ class JobController extends Controller
 
     public function index()
     {
-        $jobs = Job::paginate(15);
+        $fields = \Schema::getColumnListing('jobs');
 
-        return response()->json(new JobCollection($jobs), Response::HTTP_OK);
+        $jobs = QueryBuilder::for(Job::class)
+            ->allowedFilters($fields)
+            ->allowedSorts($fields)
+            ->paginate(15)
+            ->appends(request()->query());
+
+        return new JobCollection($jobs);
     }
 
     public function show(Job $job)

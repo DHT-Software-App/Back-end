@@ -6,7 +6,7 @@ use App\Http\Requests\InsuranceRequest;
 use App\Http\Resources\InsuranceCollection;
 use App\Http\Resources\InsuranceResource;
 use App\Models\Insurance;
-use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
 class InsuranceController extends Controller
@@ -19,9 +19,15 @@ class InsuranceController extends Controller
 
     public function index()
     {
-        $insurances = Insurance::paginate(15);
+        $fields = \Schema::getColumnListing('insurances');
 
-        return response()->json(new InsuranceCollection($insurances), Response::HTTP_OK);
+        $insurances = QueryBuilder::for(Insurance::class)
+            ->allowedFilters($fields)
+            ->allowedSorts($fields)
+            ->paginate(15)
+            ->appends(request()->query());
+
+        return new InsuranceCollection($insurances);
     }
 
     public function show(Insurance $insurance)
