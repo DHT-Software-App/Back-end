@@ -25,6 +25,7 @@ class EstimateItemResource extends JsonResource
                     'price',
                     'unit',
                     'item_type',
+                    'category',
                     'created_at',
                     'updated_at'
                 ),

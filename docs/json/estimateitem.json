@@ -1,6 +1,8 @@
 {
-    "name": "Remove a sink",
-    "price": 351.32,
-    "unit": "STT",
+    "name": "Protect contents",
+    "price": 0.89,
+    "unit": "ST",
+    "item_type": "Service",
+    "category" : "Basic",
     "work_type_id": 1
 }

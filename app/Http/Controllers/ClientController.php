@@ -24,7 +24,7 @@ class ClientController extends Controller
         $clients = QueryBuilder::for(Client::class)
             ->allowedFilters($fields)
             ->allowedSorts($fields)
-            ->paginate(15)
+            ->paginate(2)
             ->appends(request()->query());
 
         return new ClientCollection($clients);

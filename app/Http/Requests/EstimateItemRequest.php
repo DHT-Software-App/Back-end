@@ -20,7 +20,12 @@ class EstimateItemRequest extends APIRequest
             'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
             'unit' => 'required|max:5',
             'item_type' => [
-                Rule::in(['service', 'machine'])
+                'required',
+                Rule::in(['Service', 'Machine'])
+            ],
+            'category' => [
+                'required',
+                Rule::in(['Basic', 'Sub-total Equipment & Materials', 'TARP', 'Sub-total Service Labor'])
             ],
             'work_type_id' => 'required|exists:work_types,id'
         ];
